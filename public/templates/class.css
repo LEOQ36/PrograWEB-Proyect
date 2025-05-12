@@ -1,0 +1,18 @@
+.fondo {
+    background-color: #888892;
+
+}
+
+.fondo2 {
+    background-color: #5e5e68;
+}
+  .container {
+    background-color: #5e5e68;
+    border-radius: 1rem;
+    padding: 3rem;
+    max-width: 500px;
+    width: 100%;
+    color: white;
+    text-align: center;
+  }
+

@@ -1,0 +1,56 @@
+.fondo {
+    background-color: #20252D;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    color: white;
+
+}
+
+.body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.fondo2 {
+    background-color: #854AFF;
+    color: white;
+}
+.container {
+    background-color: #854AFF
+;
+    border-radius: 1rem;
+    padding: 3rem;
+    max-width: 500px;
+    width: 100%;
+    color: white;
+    text-align: center;
+  }
+
+.logo-frame {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+  overflow: hidden; /* Esto recorta la imagen dentro del círculo */
+}
+
+.logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* o 'cover' si quieres que llene el círculo */
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+  justify-content: flex-start;
+}

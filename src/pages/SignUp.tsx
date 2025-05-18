@@ -1,18 +1,11 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
-    const [mensaje, setMensaje] = useState("");
     const navigate = useNavigate();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
-        setMensaje("Te hemos enviado un correo para confirmar tu registro. Por favor, revisa tu bandeja de entrada.");
-
-        setTimeout(() => {
-            navigate("/SignIn");
-        }, 3000);
+        navigate("/Verificacion");
     };
 
     return (
@@ -35,12 +28,6 @@ const SignUp = () => {
                 <div className="fondo2 col-md-6 d-flex align-items-center">
                     <div className="w-100 px-4">
                         <h3 className="mb-4">Sign up to GameStore</h3>
-
-                        {mensaje && (
-                            <div className="alert alert-success text-center">
-                                {mensaje}
-                            </div>
-                        )}
 
                         <form onSubmit={handleSubmit}>
                             <div className="mb-3">
@@ -87,5 +74,3 @@ const SignUp = () => {
 };
 
 export default SignUp;
-
-

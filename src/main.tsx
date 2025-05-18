@@ -1,8 +1,8 @@
 import ChangePassword from './pages/ChangePassword';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import 'bootstrap/dist/css/bootstrap.css';  // mejor usar la ruta así
-import './pages/class.css';                  // ruta local para tus estilos
+import 'bootstrap/dist/css/bootstrap.css'; 
+import './pages/class.css';                 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';

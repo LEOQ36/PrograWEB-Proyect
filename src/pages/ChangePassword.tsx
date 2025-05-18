@@ -29,7 +29,7 @@ const ChangePassword = () => {
         setMensaje("Contraseña actualizada exitosamente. Inicia sesión.");
 
         setTimeout(() => {
-            navigate("/SignIn"); // Ruta al login
+            navigate("/SignIn"); 
         }, 2500);
     };
 
@@ -50,7 +50,7 @@ const ChangePassword = () => {
                         </div>
                     )}
                     <p>
-                        Ingresa tu correo y una nueva contraseña para continuar.
+                        Ingresa tu correo y tu nueva contraseña para continuar.
                     </p>
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3">

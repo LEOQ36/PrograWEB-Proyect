@@ -1,37 +1,81 @@
-import Logo from "../components/Logo"
+import { useNavigate } from "react-router-dom";
+import Logo from "../components/Logo";
+import { useState } from "react";
+
 const ChangePassword = () => {
-    return <div className=" body fondo ">
-        <div>
-            <div className="text-center"><Logo/></div>
-            <h3 className="text-center mb-4">Reset your Password</h3>
-            <div className="container">
-                <p>
-                    Enter your user account's verified email address and we will send you a password restet confirmation message.
-                </p>
-                <form>
-                    <div>
-                        <input type="email" className="form-control" required/>
-                    </div>
-                    <div className="mb-3 text-start">
-                        <label>New password:</label>
-                        <input type="password" className="form-control" required/>
-                    </div>
+    const navigate = useNavigate();
+    const [mensaje, setMensaje] = useState("");
+    const [error, setError] = useState("");
 
-                    <div className="mb-3 text-start">
-                        <label>Confirm new password:</label>
-                        <input type="password" className="form-control" required/>
-                    </div>
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const form = e.currentTarget;
+        const email = form.email.value.trim();
+        const newPassword = form.newPassword.value;
+        const confirmPassword = form.confirmPassword.value;
 
-                    <button type="submit" className="btn btn-custom w-100">Send password reset email</button>
-                </form>
+        // Validar campos
+        if (!email || !newPassword || !confirmPassword) {
+            setError("Todos los campos son obligatorios.");
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            setError("Las contraseñas no coinciden.");
+            return;
+        }
+
+        // Resetear errores previos
+        setError("");
+
+        // Simulación de actualización de contraseña (solo frontend)
+        setMensaje("Contraseña actualizada exitosamente. Inicia sesión.");
+
+        setTimeout(() => {
+            navigate("/SignIn"); // Ruta al login
+        }, 2500);
+    };
+
+    return (
+        <div className="body fondo">
+            <div>
+                <div className="text-center"><Logo /></div>
+                <h3 className="text-center mb-4">Restablecer contraseña</h3>
+                <div className="container">
+                    {mensaje && (
+                        <div className="alert alert-success text-center">
+                            {mensaje}
+                        </div>
+                    )}
+                    {error && (
+                        <div className="alert alert-danger text-center">
+                            {error}
+                        </div>
+                    )}
+                    <p>
+                        Ingresa tu correo y una nueva contraseña para continuar.
+                    </p>
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-3">
+                            <label>Correo electrónico:</label>
+                            <input type="email" name="email" className="form-control" required />
+                        </div>
+                        <div className="mb-3">
+                            <label>Nueva contraseña:</label>
+                            <input type="password" name="newPassword" className="form-control" required />
+                        </div>
+                        <div className="mb-3">
+                            <label>Confirmar nueva contraseña:</label>
+                            <input type="password" name="confirmPassword" className="form-control" required />
+                        </div>
+                        <button type="submit" className="btn btn-custom w-100">
+                            Restablecer contraseña
+                        </button>
+                    </form>
+                </div>
             </div>
-
- 
-
         </div>
-</div>
+    );
+};
 
-
-}
-
-export default ChangePassword
+export default ChangePassword;

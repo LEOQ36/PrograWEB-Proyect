@@ -5,7 +5,7 @@ const Home = () => {
             <button className="btn btn-secondary" type="button">Explore</button>
         </div>
         <div className="dropdown me-3">
-            <button className="btn btn-secondary" type="button">Categoriees</button>
+            <button className="btn btn-secondary" type="button">Categories</button>
             <ul className="dropdown-menu">
                 <li><a className="dropdown-item" href="">Best Sellers</a></li>
                 <li><a className="dropdown-item" href="">Top Rated</a></li>

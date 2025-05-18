@@ -14,7 +14,6 @@ const ChangePassword = () => {
         const newPassword = form.newPassword.value;
         const confirmPassword = form.confirmPassword.value;
 
-        // Validar campos
         if (!email || !newPassword || !confirmPassword) {
             setError("Todos los campos son obligatorios.");
             return;
@@ -25,10 +24,8 @@ const ChangePassword = () => {
             return;
         }
 
-        // Resetear errores previos
         setError("");
 
-        // Simulación de actualización de contraseña (solo frontend)
         setMensaje("Contraseña actualizada exitosamente. Inicia sesión.");
 
         setTimeout(() => {

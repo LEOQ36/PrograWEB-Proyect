@@ -10,7 +10,7 @@ const SignIn = () => {
         <span> Game Store</span>
     </div>
     <div className="container text-center">
-     <h2 className="mb-3"> Sing in to GameStore</h2>
+     <h2 className="mb-3"> Sign in to GameStore</h2>
      <form>
         <div className="text-start mb-3">
             <label className="form-label">Username or email address:</label>

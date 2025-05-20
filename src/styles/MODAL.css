@@ -135,19 +135,14 @@ html, body, #root {
   margin-top: 5px;
 }
 
-/* MODAL */
-
 .modal-overlay {
   display: none;
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: #20252D; /* Consistente con fondo principal */
+  top: 0; left: 0; right: 0; bottom: 0; 
   justify-content: center;
   align-items: center;
   z-index: 1000;
-
-  /* Puedes activar este efecto si quieres desenfoque de fondo */
-  /* backdrop-filter: blur(5px); */
+  backdrop-filter: blur(5px);
 }
 
 .modal-overlay.show {
@@ -210,6 +205,7 @@ html, body, #root {
   height: 30%;
   display: flex;
   gap: 12px;
+  margin-top: 10px;
   overflow-x: auto;
   padding: 10px 15px;
   background: #2c2c2c;
@@ -220,11 +216,16 @@ html, body, #root {
 
 .video-thumbnails img {
   height: 100%;
+
   aspect-ratio: 16 / 9;
   border-radius: 6px;
-  cursor: pointer;
+  cursor: pointer;  
   flex-shrink: 0;
   object-fit: cover;
+  transition: transform 0.2s ease;
+}
+.video-thumbnails img:hover {
+  transform: scale(1.05);
 }
 
 .modal-description {
@@ -242,7 +243,7 @@ html, body, #root {
   font-size: 18px;
   color: white;
   display: flex;
-  justify-content: space-between; /* Separa izquierda y derecha */
+  justify-content: space-between;
   align-items: center;
   gap: 20px;
   padding-top: 10px;
@@ -269,7 +270,7 @@ html, body, #root {
 .purchase-button {
   background-color: #854AFF;
   color: white;
-  font-size: 1.2rem;
+  font-size: 2.5rem;
   font-weight: bold;
   padding: 12px 24px;
   border: none;
@@ -278,8 +279,8 @@ html, body, #root {
   text-align: center;
   transition: background-color 0.3s ease;
   white-space: nowrap;
-  flex-shrink: 0; /* No se reduzca el botón */
-  margin-left: auto; /* Empuja el botón al extremo derecho */
+  flex-shrink: 0; 
+  margin-left: auto; 
 } 
 
 .purchase-button:hover {
@@ -329,6 +330,15 @@ html, body, #root {
   font-size: 0.8rem;
   color: white;
 }
+.scroll-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+
+
 
 @media (max-width: 768px) {
   .modal-content {

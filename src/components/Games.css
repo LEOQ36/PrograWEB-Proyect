@@ -1,0 +1,79 @@
+.section-title {
+  margin-left: 30px;
+  margin-bottom: 20px;
+  color: white;
+}
+
+
+.game-card-custom:hover {
+  transform: scale(1.05);
+}
+
+
+.game-info {
+  padding: 10px;
+}
+
+.platform {
+  font-size: 0.9rem;
+  color: #ccc;
+  margin: 0;
+}
+.game-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem 2rem;
+}
+
+.game-card-custom {
+  background-color: #20252D;
+  width: 200px;
+  border-radius: 10px;
+  overflow: hidden;
+  color: white;
+  padding: 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.game-img {
+  width: 100%;
+  height: 290px;
+  object-fit: contain; /* o 'cover' si quieres recorte elegante */
+}
+
+
+
+.game-info {
+  padding: 0.5rem 1rem;
+}
+
+.price {
+  font-weight: bold;
+}
+
+.discount {
+  color: #FF5252;
+  margin-left: 8px;
+}
+
+.stars1 {
+  color: #FFD700;
+  font-size: 1rem;
+}
+
+
+
+.platform-logo {
+  width: 40px;
+  height: auto;
+  margin-top: 5px;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #bbb;
+  margin-right: 8px;
+}
+
+

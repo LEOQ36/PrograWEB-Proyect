@@ -1,11 +1,11 @@
 .fondo {
-    background-color: #20252D;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    color: white;
-
+  background-color: #20252D;
+  min-height: 100vh; /* Esto asegura que como mínimo sea el alto del viewport pero puede crecer */
+  margin: 0;
+  padding: 0;
+  color: white;
 }
+
 html, body, #root {
   height: 100%;
   margin: 0;

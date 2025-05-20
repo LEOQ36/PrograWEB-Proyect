@@ -1,45 +1,10 @@
+import BarraNavegacion from "../components/BarraNavegacion"
+import Game from "../components/Game"
+
 const Home = () => {
     return <div className="fondo">
-    <nav  className="navbar navbar-expand-lg navbar-light bg-light px-3">
-        <div className="me-3">
-            <button className="btn btn-secondary" type="button">Explore</button>
-        </div>
-        <div className="dropdown me-3">
-            <button className="btn btn-secondary" type="button">Categories</button>
-            <ul className="dropdown-menu">
-                <li><a className="dropdown-item" href="">Best Sellers</a></li>
-                <li><a className="dropdown-item" href="">Top Rated</a></li>
-                <li><a className="dropdown-item" href="">Free to Play</a></li>
-                <li><a className="dropdown-item" href="">Multiplayer</a></li>
-                <li><a className="dropdown-item" href="">Early Access</a></li>
-            </ul>
-        </div>
 
-         <div className="dropdown me-3">
-            <button className="btn btn-secondary" type="button">Home</button>        
-        </div>
-
-         <div className="dropdown me-3">
-            <button className="btn btn-secondary" type="button">Platform</button>
-            <ul className="dropdown-menu">
-                <li><a className="dropdown-item" href="">PS5</a></li>
-                <li><a className="dropdown-item" href="">Xbox</a></li>
-                <li><a className="dropdown-item" href="">PC</a></li>
-                <li><a className="dropdown-item" href="">Switch</a></li>
-            </ul>
-        </div>
-
-         <div className="dropdown me-3">
-            <button className="btn btn-secondary" type="button">Special Offers</button>
-            <ul className="dropdown-menu">
-                <li><a className="dropdown-item" href="">90%</a></li>
-                <li><a className="dropdown-item" href="">75%</a></li>
-                <li><a className="dropdown-item" href="">50%</a></li>
-                <li><a className="dropdown-item" href="">25%</a></li>
-                <li><a className="dropdown-item" href="">10%</a></li>      
-            </ul>
-        </div>
-    </nav>
+      <BarraNavegacion/>
 
     <div className="container my-4">
     <div className="d-flex justify-content-between mb-2">
@@ -49,39 +14,39 @@ const Home = () => {
     </div>
   </div>
 
-  <div className="container">
+  <div className="">
     <h5>Best Sellers</h5>
     <div className="row">
       
-      <div className="col-6 col-sm-4 col-md-3 col-lg-2">
-        <div className="game-box">Game 1</div>
+      <div className="col-6 col-sm-4 col-md-3 col-lg-2 mb-5">
+        <div className="game-box"><Game backgroundImage="/Imagenes/RD2.png" link="/Registro"/></div>
       </div>
       <div className="col-6 col-sm-4 col-md-3 col-lg-2">
-        <div className="game-box">Game 2</div>
+        <div className="game-box"><Game backgroundImage="/Imagenes/MC.png" link="/Registro"/></div>
       </div>
       <div className="col-6 col-sm-4 col-md-3 col-lg-2">
-        <div className="game-box">Game 3</div>
+        <div className="game-box"><Game backgroundImage="/Imagenes/RD2.png" link="/Registro"/></div>
       </div>
       <div className="col-6 col-sm-4 col-md-3 col-lg-2">
-        <div className="game-box">Game 4</div>
+        <div className="game-box"><Game backgroundImage="/Imagenes/RD2.png" link="/Registro"/></div>
       </div>
       <div className="col-6 col-sm-4 col-md-3 col-lg-2">
-        <div className="game-box">Game 5</div>
+        <div className="game-box"><Game backgroundImage="/Imagenes/RD2.png" link="/Registro"/></div>
       </div>
       <div className="col-6 col-sm-4 col-md-3 col-lg-2">
-        <div className="game-box">Game 6</div>
+        <div className="game-box"><Game backgroundImage="/Imagenes/RD2.png" link="/Registro"/></div>
       </div>
       <div className="col-6 col-sm-4 col-md-3 col-lg-2">
-        <div className="game-box">Game 7</div>
+        <div className="game-box"><Game backgroundImage="/Imagenes/RD2.png" link="/Registro"/></div>
       </div>
       <div className="col-6 col-sm-4 col-md-3 col-lg-2">
-        <div className="game-box">Game 8</div>
+        <div className="game-box"><Game backgroundImage="/Imagenes/RD2.png" link="/Registro"/></div>
       </div>
       <div className="col-6 col-sm-4 col-md-3 col-lg-2">
-        <div className="game-box">Game 9</div>
+        <div className="game-box"><Game backgroundImage="/Imagenes/RD2.png" link="/Registro"/></div>
       </div>
       <div className="col-6 col-sm-4 col-md-3 col-lg-2">
-        <div className="game-box">Game 10</div>
+        <div className="game-box"><Game backgroundImage="/Imagenes/RD2.png" link="/Registro"/></div>
       </div>
     </div>
   </div>

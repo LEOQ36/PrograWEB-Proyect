@@ -1,6 +1,111 @@
+import React, { useState } from 'react';
 import BarraNavegacion from '../components/BarraNavegacion';
+import GameModal from '../components/GameModal';
+import GameCard from '../components/GameCard';
 
-const TopRated = () => {
+interface Game {
+  title: string;
+  image: string;
+  platforms: string[];
+  originalPrice: string;
+  discountedPrice: string;
+  discount: string;
+}
+
+const TopRated: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const handleGameClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const games: Game[] = [
+    {
+      title: 'The Legend of Zelda: Tears of the Kingdom',
+      image: './Imagenes/ZELDA COVER.jpg',
+      platforms: ['./Imagenes/NINTENDO.png'],
+      originalPrice: '$59.99',
+      discountedPrice: '$53.99',
+      discount: '-10%',
+    },
+    {
+      title: 'Elden Ring',
+      image: './Imagenes/ELDENRING.jpg',
+      platforms: ['./Imagenes/PS5.png', './Imagenes/PC3.PNG', './Imagenes/XBOX.png'],
+      originalPrice: '$59.99',
+      discountedPrice: '$29.99',
+      discount: '-50%',
+    },
+    {
+      title: 'Super Mario Odyssey',
+      image: './Imagenes/supermario.jpg',
+      platforms: ['./Imagenes/NINTENDO.png'],
+      originalPrice: '$59.99',
+      discountedPrice: '$5.99',
+      discount: '-90%',
+    },
+    {
+      title: 'Super Mario 3D World + Bowser\'s Fury',
+      image: './Imagenes/MARIO3D.jpg',
+      platforms: ['./Imagenes/NINTENDO.png'],
+      originalPrice: '$59.99',
+      discountedPrice: '$44.99',
+      discount: '-25%',
+    },
+    {
+      title: 'Marvel\'s Spider-Man 2',
+      image: './Imagenes/SPIDERMAN.png',
+      platforms: ['./Imagenes/PS5.png'],
+      originalPrice: '$69.99',
+      discountedPrice: '$69.29',
+      discount: '-1%',
+    },
+    {
+      title: 'Cyberpunk 2077',
+      image: './Imagenes/CYBERPUNK.jpeg',
+      platforms: ['./Imagenes/PC3.PNG', './Imagenes/PS5.png', './Imagenes/XBOX.png'],
+      originalPrice: '$49.99',
+      discountedPrice: '$24.99',
+      discount: '-50%',
+    },
+    {
+      title: 'Astro Bot',
+      image: './Imagenes/AB.png.webp',
+      platforms: ['./Imagenes/PS5.png'],
+      originalPrice: '$59.99',
+      discountedPrice: '$53.99',
+      discount: '-10%',
+    },
+    {
+      title: 'God Of War Ragnarok',
+      image: './Imagenes/GOW.png',
+      platforms: ['./Imagenes/PS5.png'],
+      originalPrice: '$69.99',
+      discountedPrice: '$62.99',
+      discount: '-10%',
+    },
+    {
+      title: 'Grand Theft Auto V',
+      image: './Imagenes/GTA.jpg',
+      platforms: ['./Imagenes/PC3.PNG', './Imagenes/PS5.png', './Imagenes/XBOX.png'],
+      originalPrice: '$59.99',
+      discountedPrice: '$5.99',
+      discount: '-90%',
+    },
+    {
+      title: 'Red Dead Redemption 2',
+      image: './Imagenes/RD2.png',
+      platforms: ['./Imagenes/PC3.PNG', './Imagenes/PS5.png', './Imagenes/XBOX.png'],
+      originalPrice: '$59.99',
+      discountedPrice: '$29.99',
+      discount: '-50%',
+    },
+  ];
+
   return (
     <div className="fondo">
       <BarraNavegacion />
@@ -16,146 +121,16 @@ const TopRated = () => {
       <h1 className="section-title">Top Rated Games</h1>
 
       <div className="game-grid">
-
-        {/* Zelda */}
-        <div className="game-card-custom">
-          <img src="./Imagenes/ZELDA COVER.jpg" alt="Zelda" className="game-img" />
-          <div className="game-info">
-            <h5>The Legend of Zelda: Tears of the Kingdom</h5>
-            <img src="./Imagenes/NINTENDO.png" alt="Nintendo" className="platform-logo" />
-            <p className="price">
-              <span className="original-price">$59.99</span> $53.99 <span className="discount">-10%</span>
-            </p>
-            <p className="stars1">★★★★★</p>
-          </div>
-        </div>
-
-        {/* Elden Ring */}
-        <div className="game-card-custom">
-          <img src="./Imagenes/ELDENRING.jpg" alt="Elden Ring" className="game-img" />
-          <div className="game-info">
-            <h5>Elden Ring</h5>
-            <img src="./Imagenes/PS5.png" alt="PS5" className="platform-logo" />
-            <img src="./Imagenes/PC3.PNG" alt="PC" className="platform-logo" />
-            <img src="./Imagenes/XBOX.png" alt="Xbox" className="platform-logo" />
-            <p className="price">
-              <span className="original-price">$59.99</span> $29.99 <span className="discount">-50%</span>
-            </p>
-            <p className="stars1">★★★★★</p>
-          </div>
-        </div>
-
-        {/* Super Mario Odyssey */}
-        <div className="game-card-custom">
-          <img src="./Imagenes/supermario.jpg" alt="Super Mario Odyssey" className="game-img" />
-          <div className="game-info">
-            <h5>Super Mario Odyssey</h5>
-            <img src="./Imagenes/NINTENDO.png" alt="Nintendo" className="platform-logo" />
-            <p className="price">
-              <span className="original-price">$59.99</span> $5.99 <span className="discount">-90%</span>
-            </p>
-            <p className="stars1">★★★★★</p>
-          </div>
-        </div>
-
-        {/* Super Mario 3D World */}
-        <div className="game-card-custom">
-          <img src="./Imagenes/MARIO3D.jpg" alt="Mario 3D World" className="game-img" />
-          <div className="game-info">
-            <h5>Super Mario 3D World + Bowser's Fury</h5>
-            <img src="./Imagenes/NINTENDO.png" alt="Nintendo" className="platform-logo" />
-            <p className="price">
-              <span className="original-price">$59.99</span> $44.99 <span className="discount">-25%</span>
-            </p>
-            <p className="stars1">★★★★★</p>
-          </div>
-        </div>
-
-        {/* Spider-Man 2 */}
-        <div className="game-card-custom">
-          <img src="./Imagenes/SPIDERMAN.png" alt="Spider-Man 2" className="game-img" />
-          <div className="game-info">
-            <h5>Marvel's Spider-Man 2</h5>
-            <img src="./Imagenes/PS5.png" alt="PS5" className="platform-logo" />
-            <p className="price">
-              <span className="original-price">$69.99</span> $69.29 <span className="discount">-1%</span>
-            </p>
-            <p className="stars1">★★★★★</p>
-          </div>
-        </div>
-
-        {/* Cyberpunk */}
-        <div className="game-card-custom">
-          <img src="./Imagenes/CYBERPUNK.jpeg" alt="Cyberpunk 2077" className="game-img" />
-          <div className="game-info">
-            <h5>Cyberpunk 2077</h5>
-            <img src="./Imagenes/PC3.PNG" alt="PC" className="platform-logo" />
-            <img src="./Imagenes/PS5.png" alt="PS5" className="platform-logo" />
-            <img src="./Imagenes/XBOX.png" alt="Xbox" className="platform-logo" />
-            <p className="price">
-              <span className="original-price">$49.99</span> $24.99 <span className="discount">-50%</span>
-            </p>
-            <p className="stars1">★★★★★</p>
-          </div>
-        </div>
-
-        {/* Astro Bot */}
-        <div className="game-card-custom">
-          <img src="./Imagenes/AB.png.webp" alt="Astro Bot" className="game-img" />
-          <div className="game-info">
-            <h5>Astro Bot</h5>
-            <img src="./Imagenes/PS5.png" alt="PS5" className="platform-logo" />
-            <p className="price">
-              <span className="original-price">$59.99</span> $53.99 <span className="discount">-10%</span>
-            </p>
-            <p className="stars1">★★★★★</p>
-          </div>
-        </div>
-
-        {/* God of War Ragnarok */}
-        <div className="game-card-custom">
-          <img src="./Imagenes/GOW.png" alt="God of War Ragnarok" className="game-img" />
-          <div className="game-info">
-            <h5>God Of War Ragnarok</h5>
-            <img src="./Imagenes/PS5.png" alt="PS5" className="platform-logo" />
-            <p className="price">
-              <span className="original-price">$69.99</span> $62.99 <span className="discount">-10%</span>
-            </p>
-            <p className="stars1">★★★★★</p>
-          </div>
-        </div>
-
-        {/* GTA V */}
-        <div className="game-card-custom">
-          <img src="./Imagenes/GTA.jpg" alt="GTA V" className="game-img" />
-          <div className="game-info">
-            <h5>Grand Theft Auto V</h5>
-            <img src="./Imagenes/PC3.PNG" alt="PC" className="platform-logo" />
-            <img src="./Imagenes/PS5.png" alt="PS5" className="platform-logo" />
-            <img src="./Imagenes/XBOX.png" alt="Xbox" className="platform-logo" />
-            <p className="price">
-              <span className="original-price">$59.99</span> $5.99 <span className="discount">-90%</span>
-            </p>
-            <p className="stars1">★★★★★</p>
-          </div>
-        </div>
-
-        {/* Red Dead Redemption 2 */}
-        <div className="game-card-custom">
-          <img src="./Imagenes/RD2.png" alt="Red Dead Redemption 2" className="game-img" />
-          <div className="game-info">
-            <h5>Red Dead Redemption 2</h5>
-            <img src="./Imagenes/PC3.PNG" alt="PC" className="platform-logo" />
-            <img src="./Imagenes/PS5.png" alt="PS5" className="platform-logo" />
-            <img src="./Imagenes/XBOX.png" alt="Xbox" className="platform-logo" />
-            <p className="price">
-              <span className="original-price">$59.99</span> $29.99 <span className="discount">-50%</span>
-            </p>
-            <p className="stars1">★★★★★</p>
-          </div>
-        </div>
-
+        {games.map((game, index) => (
+          <GameCard
+            key={index}
+            game={game}
+            onClick={index === 0 ? handleGameClick : undefined}
+          />
+        ))}
       </div>
+
+      {isModalOpen && <GameModal onClose={handleCloseModal} />}
     </div>
   );
 };

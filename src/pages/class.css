@@ -1,6 +1,6 @@
 .fondo {
   background-color: #20252D;
-  min-height: 100vh; /* Esto asegura que como mínimo sea el alto del viewport pero puede crecer */
+  min-height: 100vh; 
   margin: 0;
   padding: 0;
   color: white;
@@ -11,6 +11,27 @@ html, body, #root {
   margin: 0;
   padding: 0;
 }
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.logo-wrapper img {
+  width: 150px; 
+  height: auto;
+  object-fit: contain;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  border-radius: 0.5rem; 
+  transition: transform 0.3s ease;
+}
+
+.logo-wrapper img:hover {
+  transform: scale(1.05);
+}
+
+
 
 
 .body {
@@ -38,19 +59,19 @@ html, body, #root {
 .logo-frame {
   width: 60px;
   height: 60px;
-  border-radius: 50%;
+  border-radius: 0;
   background-color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-right: 20px;
-  overflow: hidden; /* Esto recorta la imagen dentro del círculo */
+  overflow: hidden; 
 }
 
 .logo-img {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* o 'cover' si quieres que llene el círculo */
+  object-fit: contain; 
 }
 
 .header {

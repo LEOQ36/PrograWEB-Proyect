@@ -11,6 +11,11 @@ import Home from './pages/Home';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import TopRated from './pages/TopRated';
 import BestSellers from './pages/BestSellers';
+import Noticias from './pages/Noticias';
+import Games from './pages/AdminGames';
+import Admin from './pages/Admin';
+import Usuarios from './pages/Usuarios';
+import Estadisticas from './pages/Estadisticas';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -23,6 +28,11 @@ createRoot(document.getElementById('root')!).render(
         <Route path='/Home' element={<Home />} />
         <Route path='/TopRated' element={<TopRated />} />
         <Route path='/BestSellers' element={<BestSellers />} />
+        <Route path='/UsuariosAdmin' element={<Usuarios />} />
+        <Route path='/NoticiasAdmin' element={<Noticias />} />
+        <Route path='/GamesAdmin' element={<Games />}/>
+        <Route path='/EstadisticasAdmin' element={<Estadisticas />} />
+        <Route path='/Admin' element={<Admin/>}/>
       </Routes>
     </BrowserRouter>
   </StrictMode>

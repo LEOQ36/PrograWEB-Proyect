@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import BarraNavegacion from '../components/BarraNavegacion';
 import GameModal from '../components/GameModal';
 import GameCard from '../components/GameCard';
+import VideoGameCarousel from '../components/Carrusel';
 
 interface Game {
+  id: number
   title: string;
   image: string;
+  Bannerimage: string,
   platforms: string[];
   originalPrice: string;
   discountedPrice: string;
@@ -33,8 +36,10 @@ const TopRated: React.FC = () => {
 
   const games: Game[] = [
     {
+      id: 1594,
       title: 'The Legend of Zelda: Tears of the Kingdom',
       image: './Imagenes/ZELDA COVER.jpg',
+       Bannerimage: './Imagenes/2k25.png',
       platforms: ['./Imagenes/NINTENDO.png'],
       originalPrice: '$59.99',
       discountedPrice: '$53.99',
@@ -58,8 +63,10 @@ const TopRated: React.FC = () => {
       ]    
     },
     {
+      id: 1594,
       title: 'Elden Ring',
       image: './Imagenes/ELDENRING.jpg',
+      Bannerimage: './Imagenes/2k25.png',
       platforms: ['./Imagenes/PS5.png', './Imagenes/PC3.PNG', './Imagenes/XBOX.png'],
       originalPrice: '$59.99',
       discountedPrice: '$29.99',
@@ -83,8 +90,10 @@ const TopRated: React.FC = () => {
       ]
     },
     {
+      id: 1594,
       title: 'Super Mario Odyssey',
       image: './Imagenes/supermario.jpg',
+      Bannerimage: './Imagenes/2k25.png',
       platforms: ['./Imagenes/NINTENDO.png'],
       originalPrice: '$59.99',
       discountedPrice: '$5.99',
@@ -109,8 +118,10 @@ const TopRated: React.FC = () => {
       
     },
     {
+      id: 1594,
       title: 'Super Mario 3D World + Bowser\'s Fury',
       image: './Imagenes/MARIO3D.jpg',
+       Bannerimage: './Imagenes/2k25.png',
       platforms: ['./Imagenes/NINTENDO.png'],
       originalPrice: '$59.99',
       discountedPrice: '$44.99',
@@ -135,8 +146,10 @@ const TopRated: React.FC = () => {
 
     },
     {
+      id: 1594,
       title: 'Marvel\'s Spider-Man 2',
       image: './Imagenes/SPIDERMAN.png',
+       Bannerimage: './Imagenes/2k25.png',
       platforms: ['./Imagenes/PS5.png'],
       originalPrice: '$69.99',
       discountedPrice: '$69.29',
@@ -159,8 +172,10 @@ const TopRated: React.FC = () => {
       ]
     },
     {
+      id: 1594,
       title: 'Cyberpunk 2077',
       image: './Imagenes/CYBERPUNK.jpeg',
+       Bannerimage: './Imagenes/2k25.png',
       platforms: ['./Imagenes/PC3.PNG', './Imagenes/PS5.png', './Imagenes/XBOX.png'],
       originalPrice: '$49.99',
       discountedPrice: '$24.99',
@@ -183,8 +198,10 @@ const TopRated: React.FC = () => {
       ]
     },
     {
+      id: 1594,
       title: 'Astro Bot',
       image: './Imagenes/AB.png.webp',
+       Bannerimage: './Imagenes/2k25.png',
       platforms: ['./Imagenes/PS5.png'],
       originalPrice: '$59.99',
       discountedPrice: '$53.99',
@@ -207,8 +224,10 @@ const TopRated: React.FC = () => {
       ]
     },
     {
+      id: 1594,
       title: 'God Of War Ragnarok',
       image: './Imagenes/GOW.png',
+       Bannerimage: './Imagenes/2k25.png',
       platforms: ['./Imagenes/PS5.png'],
       originalPrice: '$69.99',
       discountedPrice: '$62.99',
@@ -231,8 +250,10 @@ const TopRated: React.FC = () => {
       ]
     },
     {
+      id: 1594,
       title: 'Grand Theft Auto V',
       image: './Imagenes/GTA.jpg',
+       Bannerimage: './Imagenes/2k25.png',
       platforms: ['./Imagenes/PC3.PNG', './Imagenes/PS5.png', './Imagenes/XBOX.png'],
       originalPrice: '$59.99',
       discountedPrice: '$5.99',
@@ -255,8 +276,10 @@ const TopRated: React.FC = () => {
       ]
     },
     {
+      id: 1594,
       title: 'Red Dead Redemption 2',
       image: './Imagenes/RD2.png',
+       Bannerimage: './Imagenes/2k25.png',
       platforms: ['./Imagenes/PC3.PNG', './Imagenes/PS5.png', './Imagenes/XBOX.png'],
       originalPrice: '$59.99',
       discountedPrice: '$29.99',
@@ -283,15 +306,11 @@ const TopRated: React.FC = () => {
   return (
     <div className="fondo">
       <BarraNavegacion />
-
-      <div className="container my-4">
-        <div className="d-flex justify-content-between mb-2">
-          <button className="btn btn-secondary">Previous</button>
-          <div className="text-center text-white">Games</div>
-          <button className="btn btn-secondary">Next</button>
-        </div>
+      <div>
+        <VideoGameCarousel games={games} title="Videojuegos Recomendados" />
       </div>
 
+      
       <h1 className="section-title">Top Rated Games</h1>
 
       <div className="game-grid">

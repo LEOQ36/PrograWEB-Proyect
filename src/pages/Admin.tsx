@@ -6,7 +6,7 @@ const Admin = () => {
 
     <div className="d-flex">
       {/* Sidebar */}
-      <div className="fondo2 p-4 text-white" style={{ width: "25%", minHeight: "100vh" }}>
+      <div className="fondo2 p-4 text-white" >
         <div className="d-flex flex-column align-items-center">
           <div className="logo_Admin">
             <img

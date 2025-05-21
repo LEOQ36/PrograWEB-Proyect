@@ -188,7 +188,7 @@ const Home : React.FC = () => {
 
     
 
-      <h1 className="section-title">Top Rated Games</h1>
+      <h1 className="section-title">Recent Games</h1>
 
       <div className="game-grid">
         {games.map((game, index) => (

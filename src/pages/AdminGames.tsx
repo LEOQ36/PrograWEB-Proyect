@@ -2,6 +2,31 @@
 import { Link } from "react-router-dom";
 import React, { useState } from "react";
 
+type EliminarJuegosProps ={
+
+  isOpen:boolean;
+
+  onCancel:() =>void;
+
+  onConfirm:() =>void;
+
+};
+
+const EliminarJuegos = ({ isOpen, onCancel, onConfirm }: EliminarJuegosProps) => {
+  if (!isOpen) return null;
+  return (
+    <div className="modal_overlay">
+      <div className="modal_content bg-light p-4 rounded text-center" style={{ width: "400px", margin: "auto", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)" }}>
+        <h5 className="mb-4">¿Estás seguro de que deseas eliminar este juego?</h5>
+        <div className="d-flex justify-content-between">
+          <button className="btn btn-secondary" onClick={onCancel}>Cancelar</button>
+          <button className="btn btn-danger" onClick={onConfirm}>Eliminar</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const AdminGames = () => {
 const games = [
     {
@@ -30,12 +55,34 @@ const games = [
   
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
+  const [iseditModalOpen, setEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [selectedGameToDelete, setSelectedGameToDelete] = useState<string | null>(null);
 
   const openAddModal = () => setAddModalOpen(true);
   const closeAddModal = () => setAddModalOpen(false);
 
   const openFilterModal = () => setFilterModalOpen(true);
   const closeFilterModal = () => setFilterModalOpen(false);
+
+  const openEditModal = () => setEditModalOpen(true);
+  const closeEditModal = () => setEditModalOpen(false);
+
+  const openDeleteModal = (gameName: string) => {
+    setSelectedGameToDelete(gameName);
+    setDeleteModalOpen(true);
+  };
+
+  const closeDeleteModal = () => {
+    setSelectedGameToDelete(null);
+    setDeleteModalOpen(false);
+  };
+
+  const confirmDelete = () => {
+    console.log(`Eliminando juego: ${selectedGameToDelete}`);
+    // Aquí iría la lógica real de eliminación
+    closeDeleteModal();
+  };
 
   return (
     <div className="d-flex">
@@ -130,6 +177,52 @@ const games = [
           </div>
         )}
 
+        {iseditModalOpen && (
+          <div className="modal_overlay">
+            <div
+              className="modal_content bg-light p-4 rounded"
+              style={{
+                width: "400px",
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)"
+              }}
+            >
+              <h4 className="mb-4 text-center">Edit game</h4>
+              <div className="mb-3">
+                <label className="form-label">Name</label>
+                <input type="text" className="form-control" defaultValue="Silent Hill 2" />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Category</label>
+                <select className="form-control">
+                  <option>Horror</option>
+                </select>
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Price</label>
+                <input type="text" className="form-control" defaultValue="29.52" />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Discount</label>
+                <input type="text" className="form-control" defaultValue="0" />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Description</label>
+                <textarea className="form-control" defaultValue="Describe el juego..."></textarea>
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Photo</label>
+                <div className="border rounded bg-light text-center py-2">
+                  <img src="https://via.placeholder.com/100x60?text=Image" alt="Preview" />
+                </div>
+              </div>
+              <div className="d-flex justify-content-between">
+                <button className="btn btn-secondary" onClick={closeEditModal}>Cancel</button>
+                <button className="btn btn-primary" onClick={closeEditModal}>Submit</button>
+              </div>
+            </div>
+          </div>
+        )}        
+
         {/* Games Table */}
         <table className="table table-striped">
           <thead className="thead-dark">
@@ -151,13 +244,19 @@ const games = [
                 <td>{game.precioBase}</td>
                 <td>{game.discount}</td>
                 <td>
-                  <button className="btn btn-warning btn-sm me-2">✏️</button>
-                  <button className="btn btn-danger btn-sm">🗑️</button>
+                  <button className="btn btn-warning btn-sm me-2" onClick={openEditModal}>✏️</button>
+                  <button className="btn btn-danger btn-sm" onClick={() => openDeleteModal(game.name)}>🗑️</button>
+
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+        <EliminarJuegos
+          isOpen={isDeleteModalOpen}
+          onCancel={closeDeleteModal}
+          onConfirm={confirmDelete}
+        />
       </div>
     </div>
   );

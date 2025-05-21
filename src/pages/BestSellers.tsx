@@ -183,7 +183,7 @@ const BestSellers : React.FC = () => {
       discount: '-10%',
       description:"Ambientado en el universo de Harry Potter, permite a los jugadores vivir como un estudiante en Hogwarts del siglo XIX con libertad para explorar, lanzar hechizos y elegir su casa.",
       videoUrls: [
-        "https://www.youtube.com/embed/unYFdcEjV9k"
+        "https://www.youtube.com/embed/S6GTl_vPRvU"
       ],
       reviews: [
         {
@@ -238,7 +238,7 @@ const BestSellers : React.FC = () => {
       discount: '-1%',
       description:"Continuación directa de MWII con una campaña intensa, mapas multijugador clásicos remasterizados y un nuevo modo de zombis de mundo abierto.",
       videoUrls: [
-        "https://www.youtube.com/embed/9fVYKsEmuRo"
+        "https://www.youtube.com/embed/mRLjrtX6Jes"
       ],
       reviews: [
         {
@@ -264,7 +264,7 @@ const BestSellers : React.FC = () => {
       discount: '-50%',
       description:"Vive la vida de un forajido en el ocaso del Viejo Oeste. Con una historia profunda y un mundo abierto detallado, Red Dead Redemption 2 es una obra maestra de narrativa y jugabilidad.",
       videoUrls: [
-        "https://www.youtube.com/embed/gmA6MrX81z4"
+        "https://www.youtube.com/embed/-vL01jbgENE"
       ],
       reviews: [
         {
@@ -290,7 +290,7 @@ const BestSellers : React.FC = () => {
       discount: '-50%',
       description:"Sumérgete en una aventura intergaláctica donde formas parte de una organización de exploradores en busca de respuestas en los confines del universo.",
       videoUrls: [
-        "https://www.youtube.com/embed/gmA6MrX81z4"
+        "https://www.youtube.com/embed/pYqyVpCV-3c"
       ],
       reviews: [
         {

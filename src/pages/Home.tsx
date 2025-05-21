@@ -16,6 +16,11 @@ interface Game {
   description?: string;
   videoUrls?: string[];
   screenshots?: string[];
+  reviews?: {
+    avatar: string;
+    rating: string; // Ej: "★★★★☆"
+    comment: string;
+  }[];
 }
 
 
@@ -35,16 +40,28 @@ const Home : React.FC = () => {
       id : 1234,
       title: 'NBA 2K25',
       image: './Imagenes/2k25.png',
-      Bannerimage: './Imagenes/2k25.png',
+      Bannerimage: './Imagenes/NBA2.jpg',
       platforms: ['./Imagenes/NINTENDO.png'],
       originalPrice: '$59.99',
       discountedPrice: '$53.99',
       discount: '-10%',
       description: ' La entrega anual de la serie NBA 2K, con mejoras en gráficos, físicas realistas y modos de juego como MiCarrera y MiEquipo',
       videoUrls: [
-        "https://www.youtube.com/embed/zw47_q9wbBE",
-        "https://www.youtube.com/embed/1rPxiXXxftE",
-      ],    
+        "https://www.youtube.com/embed/qx0A921z8mA",
+        
+      ],
+      reviews: [
+        {
+          avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+          rating: '★★★★★',
+          comment: 'Muy entretenido y con excelente jugabilidad.'
+        },
+        {
+          avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+          rating: '★★★★★',
+          comment: '¡Juego Legendario!'
+        }
+      ]    
     },
     {
       id : 1243212,
@@ -57,9 +74,21 @@ const Home : React.FC = () => {
       discount: '-50%',
       description: 'Regresa el oscuro mundo de Santuario con una campaña inmersiva, exploración libre, y multijugador en línea con clases icónicas como el Bárbaro y la Hechicera',
       videoUrls: [
-        "https://www.youtube.com/embed/watch?v=0SSYzl9fXOQ",
-        "https://www.youtube.com/embed/watch?v=7RdDpqCmjb4",
+        "https://www.youtube.com/embed/0SSYzl9fXOQ",
+        
       ],
+      reviews: [
+        {
+          avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+          rating: '★★★★★',
+          comment: 'Muy entretenido y con excelente jugabilidad.'
+        },
+        {
+          avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+          rating: '★★★★★',
+          comment: '¡Juego Legendario!'
+        }
+      ]    
     },
     {
        id : 1249,
@@ -72,23 +101,47 @@ const Home : React.FC = () => {
       discount: '-90%',
       description:"Nueva entrega del clásico de peleas con gráficos renovados en Unreal Engine 5 y un enfoque en el estilo ofensivo con nuevos sistemas de combate.",
       videoUrls: [
-        "https://www.youtube.com/embed/EF5YynyWvQo"
-      ]      
+        "https://www.youtube.com/embed/2hPuRQz6IlM"
+      ],
+      reviews: [
+        {
+          avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+          rating: '★★★★★',
+          comment: 'Muy entretenido y con excelente jugabilidad.'
+        },
+        {
+          avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+          rating: '★★★★★',
+          comment: '¡Juego Legendario!'
+        }
+      ]          
       
     },
     {
        id : 1242,
       title: 'Final Fantasy VII Rebirth',
       image: './Imagenes/FF.png',
-      Bannerimage: './Imagenes/FF.png',
+      Bannerimage: './Imagenes/FF_BANNER.jpg',
       platforms: ['./Imagenes/NINTENDO.png'],
       originalPrice: '$59.99',
       discountedPrice: '$44.99',
       discount: '-25%',
       description:"Segunda parte del remake de Final Fantasy VII, expandiendo la historia clásica con nuevos personajes, mundos abiertos y combate en tiempo real por equipos.",
       videoUrls: [
-        "https://www.youtube.com/embed/5nW9o6M5zFo"
-      ]
+        "https://www.youtube.com/embed/tUaWUyaeXhs"
+      ],
+      reviews: [
+        {
+          avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+          rating: '★★★★★',
+          comment: 'Muy entretenido y con excelente jugabilidad.'
+        },
+        {
+          avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+          rating: '★★★★★',
+          comment: '¡Juego Legendario!'
+        }
+      ]    
 
     },
     {
@@ -102,8 +155,20 @@ const Home : React.FC = () => {
       discount: '-1%',
       description:"Continuación directa de MWII con una campaña intensa, mapas multijugador clásicos remasterizados y un nuevo modo de zombis de mundo abierto.",
       videoUrls: [
-        "https://www.youtube.com/embed/9fVYKsEmuRo"
-      ]
+        "https://www.youtube.com/embed/mRLjrtX6Jes"
+      ],
+      reviews: [
+        {
+          avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+          rating: '★★★★★',
+          comment: 'Muy entretenido y con excelente jugabilidad.'
+        },
+        {
+          avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+          rating: '★★★★★',
+          comment: '¡Juego Legendario!'
+        }
+      ]    
     },
     {
        id : 1244,
@@ -116,8 +181,20 @@ const Home : React.FC = () => {
       discount: '-50%',
       description:"Reimaginación moderna del clásico de 2005, con mejores gráficos, combate refinado y narrativa más profunda con Leon S. Kennedy como protagonista.",
       videoUrls: [
-        "https://www.youtube.com/embed/qIcTM8WXFjk"
-      ]
+        "https://www.youtube.com/embed/O75Ip4o1bs8"
+      ],
+      reviews: [
+        {
+          avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+          rating: '★★★★★',
+          comment: 'Muy entretenido y con excelente jugabilidad.'
+        },
+        {
+          avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+          rating: '★★★★★',
+          comment: '¡Juego Legendario!'
+        }
+      ]    
     },
     {
        id : 1243,
@@ -130,8 +207,20 @@ const Home : React.FC = () => {
       discount: '-10%',
       description:"Ambientado en el universo de Harry Potter, permite a los jugadores vivir como un estudiante en Hogwarts del siglo XIX con libertad para explorar, lanzar hechizos y elegir su casa.",
       videoUrls: [
-        "https://www.youtube.com/embed/unYFdcEjV9k"
-      ]
+        "https://www.youtube.com/embed/S6GTl_vPRvU"
+      ],
+      reviews: [
+        {
+          avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+          rating: '★★★★★',
+          comment: 'Muy entretenido y con excelente jugabilidad.'
+        },
+        {
+          avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+          rating: '★★★★★',
+          comment: '¡Juego Legendario!'
+        }
+      ]    
     },
     {
       id : 124,
@@ -146,7 +235,19 @@ const Home : React.FC = () => {
       videoUrls: [
         "https://www.youtube.com/embed/zw47_q9wbBE",
         "https://www.youtube.com/embed/1rPxiXXxftE",
-      ],    
+      ],
+      reviews: [
+        {
+          avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+          rating: '★★★★★',
+          comment: 'Muy entretenido y con excelente jugabilidad.'
+        },
+        {
+          avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+          rating: '★★★★★',
+          comment: '¡Juego Legendario!'
+        }
+      ]        
     },
     {
        id : 1248,
@@ -159,8 +260,20 @@ const Home : React.FC = () => {
       discount: '-90%',
       description:"La legendaria saga de lucha evoluciona con un diseño visual vibrante, nuevos modos como World Tour para un jugador y una experiencia multijugador más accesible. ",
       videoUrls: [
-        "https://www.youtube.com/embed/QkkoHAzjnUs"
-      ]
+        "https://www.youtube.com/embed/1INU3FOJsTw"
+      ],
+      reviews: [
+        {
+          avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+          rating: '★★★★★',
+          comment: 'Muy entretenido y con excelente jugabilidad.'
+        },
+        {
+          avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+          rating: '★★★★★',
+          comment: '¡Juego Legendario!'
+        }
+      ]    
     },
     {
       id : 12429,
@@ -173,8 +286,20 @@ const Home : React.FC = () => {
       discount: '-50%',
       description:"Sumérgete en una aventura intergaláctica donde formas parte de una organización de exploradores en busca de respuestas en los confines del universo.",
       videoUrls: [
-        "https://www.youtube.com/embed/gmA6MrX81z4"
-      ]
+        "https://www.youtube.com/embed/pYqyVpCV-3c"
+      ],
+      reviews: [
+        {
+          avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+          rating: '★★★★★',
+          comment: 'Muy entretenido y con excelente jugabilidad.'
+        },
+        {
+          avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+          rating: '★★★★★',
+          comment: '¡Juego Legendario!'
+        }
+      ]    
     },
   ];
 
@@ -183,7 +308,7 @@ const Home : React.FC = () => {
       <BarraNavegacion />
 
       <div>
-      <VideoGameCarousel games={games} title="Videojuegos Recomendados" />
+      <VideoGameCarousel games={games}  />
     </div>
 
     

@@ -1,4 +1,4 @@
-// src/components/BarraNavegacion.tsx
+
 import { useState } from 'react';
 import { FaUser, FaSearch, FaShoppingCart, FaApplePay } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
@@ -7,7 +7,7 @@ import UsuarioActualizacion from './UsuarioActualizacion';
 const BarraNavegacion = () => {
   const [mostrarModal, setMostrarModal] = useState(false);
 
-  // Función handleGuardarPerfil (adaptada para reflejar los campos de UsuarioActualizacion)
+  
   const handleGuardarPerfil = (datosPerfil: {
     firstName: string;
     lastName: string;
@@ -15,8 +15,8 @@ const BarraNavegacion = () => {
     archivoImagenPerfil?: File | null;
   }) => {
     console.log("Datos del perfil guardados desde BarraNavegacion:", datosPerfil);
-    setMostrarModal(false); // Cierra el modal después de guardar
-  }; // ¡Corchete de cierre agregado aquí!
+    setMostrarModal(false); 
+  }; 
 
   return (
     <>
@@ -65,16 +65,7 @@ const BarraNavegacion = () => {
           </div>
 
           <div className="ms-auto d-flex align-items-center">
-            <Link className="btn text-white mx-1" to="/carrito">
-              <FaShoppingCart />
-            </Link>
-            <button className="btn text-white mx-1" onClick={() => setMostrarModal(true)}>
-              <FaUser />
-            </button>
-            <Link className="btn text-white mx-1" to="/search">
-              <FaSearch />
-            </Link>
-            <div className="dropdown mx-1">
+          <div className="dropdown mx-1">
           <button className="btn text-white dropdown-toggle" data-bs-toggle="dropdown">
             <FaApplePay />
           </button>
@@ -83,6 +74,16 @@ const BarraNavegacion = () => {
 
           </ul>
         </div>
+            <Link className="btn text-white mx-1" to="/carrito">
+              <FaShoppingCart />
+            </Link>
+            <button className="btn text-white mx-1" onClick={() => setMostrarModal(true)}>
+              <FaUser />
+            </button>
+            <Link className="btn text-white mx-1" to="/">
+              <FaSearch />
+            </Link>
+            
           </div>
         </div>
       </nav>

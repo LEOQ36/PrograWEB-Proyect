@@ -12,8 +12,6 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import TopRated from './pages/TopRated';
 import BestSellers from './pages/BestSellers';
 
-import Admin from './pages/Admin';
-
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -26,8 +24,6 @@ createRoot(document.getElementById('root')!).render(
         <Route path='/Home' element={<Home />} />
         <Route path='/TopRated' element={<TopRated />} />
         <Route path='/BestSellers' element={<BestSellers />} />
-        
-        <Route path='/Admin' element={<Admin/>}/>
       </Routes>
     </BrowserRouter>
   </StrictMode>

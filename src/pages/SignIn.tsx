@@ -11,7 +11,7 @@ const SignIn = () => {
   return (
     <div className="body fondo">
       <div className="">
-        <div className="logo-wrapper">
+        <div className="header">
           <Logo />
         </div>
         <span> Game Store</span>

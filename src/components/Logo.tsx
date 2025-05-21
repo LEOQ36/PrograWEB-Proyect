@@ -1,12 +1,7 @@
 const Logo = () => {
-  return (
-    <img
-      src="/templates/Logo.png"
-      alt="GameStore Logo"
-      className="img-fluid"
-      style={{ maxWidth: "150px" }}
-    />
-  );
-};
+   return <div className="logo-frame">
+     <img src="/Imagenes/Logo.png" className="logo-img" />
+   </div>
+}
 
-export default Logo;
+export default Logo

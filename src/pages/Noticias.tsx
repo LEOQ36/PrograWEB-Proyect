@@ -1,4 +1,4 @@
-import "bootstrap/dist/css/bootstrap.min.css";
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -22,7 +22,6 @@ const Noticias = () => {
   const [AddModalOpen, setAddModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
-  // Abrir modal de edición
   const EditClick = () => {
     setEditModalOpen(true);
   };
@@ -63,10 +62,10 @@ const Noticias = () => {
             />
           </div>
           <h2 className="admin-title">Jonathan Smith</h2>
-          <Link to={"/UsuariosAdmin"} className="btn btn-purple w-100 mb-2 text-start">Users</Link>
-          <Link to={"/GamesAdmin"} className="btn btn-purple w-100 mb-2 text-start">Games</Link>
-          <Link to={"/NoticiasAdmin"} className="btn btn-purple w-100 mb-2 text-start">News</Link>
-          <Link to={'/EstadisticasAdmin'} className="btn btn-purple w-100 mb-4 text-start">Statistics</Link>
+          <Link to={"/Usuarios"} className="btn btn-purple w-100 mb-2 text-start">Users</Link>
+          <Link to={"/AdminGames"} className="btn btn-purple w-100 mb-2 text-start">Games</Link>
+          <Link to={"/Noticias"} className="btn btn-purple w-100 mb-2 text-start">News</Link>
+          <Link to={'/Estadisticas'} className="btn btn-purple w-100 mb-4 text-start">Statistics</Link>
           <Link to={"/"} className="logout-btn">Log Out</Link>
         </div>
       </div>
@@ -82,7 +81,7 @@ const Noticias = () => {
         {editModalOpen && (
           <div className="modal_overlay">
             <div
-              className="modal-content bg-light p-4 rounded"
+              className="modal_content bg-light p-4 rounded"
               style={{
                 width: "400px",
                 boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)"
@@ -136,7 +135,7 @@ const Noticias = () => {
           <div
             className="modal_overlay">
             <div
-              className="modal-content bg-light p-4 rounded"
+              className="modal_content bg-light p-4 rounded"
               style={{
                 width: "400px",
                 boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
@@ -195,7 +194,7 @@ const Noticias = () => {
         {deleteModalOpen && (
           <div className="modal_overlay">
             <div
-              className="modal-content bg-light p-4 rounded text-center"
+              className="modal_content bg-light p-4 rounded text-center"
               style={{
                 width: "400px",
                 boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",

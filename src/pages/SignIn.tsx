@@ -8,13 +8,26 @@ const SignIn = () => {
     navigate("/Home");
   };
 
+  const handleAdminClick = () => {
+    navigate("/Admin");
+  };
+
   return (
     <div className="body fondo">
-      <div className="">
+      <div className="d-flex flex-column align-items-start p-3">
         <div className="logo-wrapper">
           <Logo />
         </div>
         <span> Game Store</span>
+
+        <button
+          type="button"
+          className="btn btn-sm mt-2"
+          style={{ backgroundColor: '#8a2be2', borderColor: '#8a2be2', color: 'white' }}
+          onClick={handleAdminClick}
+        >
+          Administrador
+        </button>
       </div>
 
       <div className="container text-center">

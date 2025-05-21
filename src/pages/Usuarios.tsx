@@ -1,4 +1,4 @@
-import "bootstrap/dist/css/bootstrap.min.css";
+
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -32,10 +32,10 @@ const Usuarios = () => {
             />
           </div>
           <h2 className="admin-title">Jonathan Smith</h2>
-          <Link to="/UsuariosAdmin" className="btn btn-purple w-100 mb-2 text-start">Users</Link>
-          <Link to="/GamesAdmin" className="btn btn-purple w-100 mb-2 text-start">Games</Link>
-          <Link to="/NoticiasAdmin" className="btn btn-purple w-100 mb-2 text-start">News</Link>
-          <Link to="/EstadisticasAdmin" className="btn btn-purple w-100 mb-4 text-start">Statistics</Link>
+          <Link to={"/Usuarios"} className="btn btn-purple w-100 mb-2 text-start">Users</Link>
+          <Link to={"/AdminGames"} className="btn btn-purple w-100 mb-2 text-start">Games</Link>
+          <Link to={"/Noticias"} className="btn btn-purple w-100 mb-2 text-start">News</Link>
+          <Link to={'/Estadisticas'} className="btn btn-purple w-100 mb-4 text-start">Statistics</Link>
           <Link to="/" className="logout-btn">Log Out</Link>
         </div>
       </div>
@@ -60,8 +60,8 @@ const Usuarios = () => {
               <tr key={usuario.id}>
                 <td>{usuario.id}</td>
                 <td>
-                  <img
-                    src={usuario.photo || "https://via.placeholder.com/100"}
+                <img
+                    src={usuario.photo || "https://via.placeholder.com/100" }
                     alt=""
                     className="rounded-circle"
                     style={{ width: "50px", height: "50px", objectFit: "cover" }}

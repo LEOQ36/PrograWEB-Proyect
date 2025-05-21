@@ -12,7 +12,7 @@ const BarraNavegacion = () => {
             Categories
           </button>
           <ul className="dropdown-menu">
-            <li><a className="dropdown-item" href="#">Best Sellers</a></li>
+            <li><a className="dropdown-item" href="/BestSellers">Best Sellers</a></li>
             <li><a className="dropdown-item" href="TopRated">Top Rated</a></li>
             <li><a className="dropdown-item" href="#">Free to Play</a></li>
             <li><a className="dropdown-item" href="#">Multiplayer</a></li>

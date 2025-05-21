@@ -10,6 +10,7 @@ import IdConfirm from './pages/IdConfirm';
 import Home from './pages/Home';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import TopRated from './pages/TopRated';
+import BestSellers from './pages/BestSellers';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -21,6 +22,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path='/Verificacion' element={<IdConfirm />} />
         <Route path='/Home' element={<Home />} />
         <Route path='/TopRated' element={<TopRated />} />
+        <Route path='/BestSellers' element={<BestSellers />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>

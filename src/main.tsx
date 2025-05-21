@@ -11,7 +11,8 @@ import Home from './pages/Home';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import TopRated from './pages/TopRated';
 import BestSellers from './pages/BestSellers';
-
+import ShoppingCart from './pages/carrito';
+import RealizarPago from './pages/RealizarPago';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -24,6 +25,8 @@ createRoot(document.getElementById('root')!).render(
         <Route path='/Home' element={<Home />} />
         <Route path='/TopRated' element={<TopRated />} />
         <Route path='/BestSellers' element={<BestSellers />} />
+        <Route path='/Carrito' element={<ShoppingCart />} />
+         <Route path='/RealizarPago' element={<RealizarPago />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>

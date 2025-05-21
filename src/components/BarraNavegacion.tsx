@@ -1,4 +1,4 @@
-import { FaUser, FaSearch } from 'react-icons/fa'
+import { FaUser, FaSearch,FaShoppingCart } from 'react-icons/fa'
 
 const BarraNavegacion = () => {
    return <nav className="navbar navbar-expand-lg" style={{ backgroundColor: '#6c757d' }}>
@@ -49,12 +49,17 @@ const BarraNavegacion = () => {
 
         {/* Íconos alineados a la derecha */}
         <div className="ms-auto d-flex align-items-center">
+         
+         <a className="btn text-white mx-1" href="./carrito">
+           < FaShoppingCart />
+          </a>
           <button className="btn text-white mx-1">
             <FaUser />
           </button>
           <button className="btn text-white mx-1">
             <FaSearch />
           </button>
+          
         </div>
 
       </div>

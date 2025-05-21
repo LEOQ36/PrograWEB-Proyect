@@ -7,20 +7,23 @@ interface GameModalProps {
     description?: string;
     videoUrls?: string[];
     screenshots?: string[];
+    reviews?: {
+      avatar?: string;
+      userImage?: string;
+      rating: string; // Ej: "★★★★☆"
+      comment: string;
+    }[];
   };
   onClose: () => void;
 }
 
 const defaultVideoUrls = [
-  "https://www.youtube.com/embed/zw47_q9wbBE", 
+  "https://www.youtube.com/embed/zw47_q9wbBE",
 ];
 
 const GameModal: React.FC<GameModalProps> = ({ game, onClose }) => {
-
   const videos = game.videoUrls && game.videoUrls.length > 0 ? game.videoUrls : defaultVideoUrls;
-
   const [currentVideo, setCurrentVideo] = useState(videos[0]);
-
 
   useEffect(() => {
     setCurrentVideo(videos[0]);
@@ -46,7 +49,9 @@ const GameModal: React.FC<GameModalProps> = ({ game, onClose }) => {
       onClick={handleOverlayClick}
     >
       <div className="modal-container">
-        <button className="close-button" aria-label="Cerrar modal" onClick={onClose}>X</button>
+        <button className="close-button" aria-label="Cerrar modal" onClick={onClose}>
+          X
+        </button>
 
         <h2 id="gameTitle">{game.title}</h2>
 
@@ -62,53 +67,52 @@ const GameModal: React.FC<GameModalProps> = ({ game, onClose }) => {
               allowFullScreen
             ></iframe>
 
-<div className="video-thumbnails">
-  {Array.from({ length: 4 }).map((_, index) => {
-    const videoId = videos[0].split('/').pop(); 
-    const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/${index}.jpg`;
+            <div className="video-thumbnails">
+              {Array.from({ length: 4 }).map((_, index) => {
+                const videoId = videos[0].split('/').pop();
+                const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/${index}.jpg`;
 
-    return (
-      <img
-        key={index}
-        src={thumbnailUrl}
-        alt={`Captura ${index + 1}`}
-        onClick={() => handleThumbnailClick(videos[0])}
-        style={{
-          cursor: 'pointer',
-          border: currentVideo === videos[0] ? '2px solid white' : 'none',
-          marginRight: '10px'
-        }}
-      />
-    );
-  })}
-</div>
-  
-
-
+                return (
+                  <img
+                    key={index}
+                    src={thumbnailUrl}
+                    alt={`Captura ${index + 1}`}
+                    onClick={() => handleThumbnailClick(videos[0])}
+                    style={{
+                      cursor: 'pointer',
+                      border: currentVideo === videos[0] ? '2px solid white' : 'none',
+                      marginRight: '10px',
+                    }}
+                  />
+                );
+              })}
+            </div>
           </div>
 
           <div className="modal-description" style={{ color: 'white' }}>
             <p>{game.description || 'Descripción no disponible para este juego.'}</p>
 
             <div className="user-reviews">
-  <div className="review">
-    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Usuario 1" />
-    <div className="review-content">
-      <div className="review-rating">★★★★☆</div>
-      <p>Muy entretenido y con excelente jugabilidad.</p>
-    </div>
-  </div>
-  <div className="review">
-    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Usuario 2"  />
-    <div className="review-content">
-      <div className="review-rating">★★★★★</div>
-      <p>¡Uno de los mejores juegos que he probado este año!</p>
-    </div>
-  </div>
-</div>
-
+              {game.reviews && game.reviews.length > 0 ? (
+                game.reviews.map((review, index) => (
+                  <div className="review" key={index}>
+                    <img
+                      src={review.avatar || review.userImage || 'https://via.placeholder.com/50'}
+                      alt={`Usuario ${index + 1}`}
+                    />
+                    <div className="review-content">
+                      <div className="review-rating">{review.rating}</div>
+                      <p>{review.comment}</p>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p>No hay reseñas disponibles.</p>
+              )}
+            </div>
           </div>
         </div>
+
         <div className="modal-rating">
           <div className="rating-info">
             <span>Rating: 5</span>

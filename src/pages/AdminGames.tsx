@@ -1,15 +1,59 @@
+import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 
-import { Link } from "react-router-dom";
-import React, { useState } from "react";
+// --- INTERFACES ACTUALIZADAS ---
+interface Categoria {
+  id: number;
+  nombre: string;
+}
 
-type EliminarJuegosProps ={
+interface Plataforma {
+  id: number;
+  nombre: string;
+}
 
-  isOpen:boolean;
+// Nueva interfaz para el usuario (solo con los campos que necesitamos)
+interface UserInGame {
+    id: number;
+    name: string; // Esperamos el campo 'name' del usuario
+}
 
-  onCancel:() =>void;
+interface Game {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  publisher: string;
+  estado: boolean;
+  estaOferta: boolean;
+  createdAt: string;
+  categoriaId: number;
+  plataformaId: number;
+  userId: number;
+  categoria?: Categoria;
+  plataforma?: Plataforma;
+  user?: UserInGame; // <-- ¡AHORA ESPERAMOS ESTO DEL BACKEND!
+}
 
-  onConfirm:() =>void;
+// Interfaz para el estado del formulario de añadir/editar
+interface FormData {
+  id?: number;
+  title: string;
+  description: string;
+  price: number;
+  publisher: string;
+  estaOferta: boolean;
+  estado: boolean;
+  userId: number; // Asegúrate de que este userId sea válido en tu DB.
+  categoriaId: number; // Ahora se seleccionará de las opciones cargadas
+  plataformaId: number; // Ahora se seleccionará de las opciones cargadas
+}
+// --- FIN DE INTERFACES ---
 
+type EliminarJuegosProps = {
+  isOpen: boolean;
+  onCancel: () => void;
+  onConfirm: () => void;
 };
 
 const EliminarJuegos = ({ isOpen, onCancel, onConfirm }: EliminarJuegosProps) => {
@@ -28,61 +72,320 @@ const EliminarJuegos = ({ isOpen, onCancel, onConfirm }: EliminarJuegosProps) =>
 };
 
 const AdminGames = () => {
-const games = [
-    {
-      date: "12/12/2024",
-      categorie: "Horror",
-      name: "silent hill II",
-      precioBase: "S/. 232.50",
-      discount: "0%" 
-    },
-    {
-      date: "27/11/2021",
-      categorie: "Zombies",
-      name: "The last of us, Remastered",
-      precioBase: "S/. 159.00",
-      discount: "25%"
-    },
-     {
-      date: "10/12/2020",
-      categorie: "Souls like",
-      name: "Elden Ring",
-      precioBase: "S/. 172.50",
-      discount: "75%"
-    }
-  ];
+  const navigate = useNavigate();
 
-  
+  const [games, setGames] = useState<Game[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Nuevos estados para categorías y plataformas
+  const [categorias, setCategorias] = useState<Categoria[]>([]);
+  const [plataformas, setPlataformas] = useState<Plataforma[]>([]);
+  const [loadingOptions, setLoadingOptions] = useState<boolean>(true);
+  const [errorOptions, setErrorOptions] = useState<string | null>(null);
+
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
-  const [iseditModalOpen, setEditModalOpen] = useState(false);
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [selectedGameToDelete, setSelectedGameToDelete] = useState<string | null>(null);
+  const [selectedGameIdToDelete, setSelectedGameIdToDelete] = useState<number | null>(null);
 
-  const openAddModal = () => setAddModalOpen(true);
+  const [formData, setFormData] = useState<FormData>({
+    title: '',
+    description: '',
+    price: 0,
+    publisher: '',
+    estaOferta: false,
+    estado: true,
+    userId: 1, // <<< Este ID es fijo, asegúrate de que exista un usuario con ID 1 en tu DB
+    categoriaId: 0, // Se inicializa en 0 o un valor por defecto que tu backend acepte
+    plataformaId: 0, // Se inicializa en 0 o un valor por defecto que tu backend acepte
+  });
+
+  const [currentEditGame, setCurrentEditGame] = useState<Game | null>(null);
+
+  // --- FUNCIONES PARA OBTENER CATEGORIAS Y PLATAFORMAS ---
+  const fetchOptions = async () => {
+    setLoadingOptions(true);
+    setErrorOptions(null);
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      setErrorOptions('No hay token de autenticación para cargar opciones.');
+      setLoadingOptions(false);
+      navigate('/SignIn'); // Redirigir si no hay token
+      return;
+    }
+
+    try {
+      const [categoriasRes, plataformasRes] = await Promise.all([
+        fetch('http://localhost:3000/api/categorias', {
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+        }),
+        fetch('http://localhost:3000/api/plataformas', {
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+        })
+      ]);
+
+      if (!categoriasRes.ok) {
+        throw new Error(`Error al cargar categorías: ${categoriasRes.statusText}`);
+      }
+      if (!plataformasRes.ok) {
+        throw new Error(`Error al cargar plataformas: ${plataformasRes.statusText}`);
+      }
+
+      const categoriasData: Categoria[] = await categoriasRes.json();
+      const plataformasData: Plataforma[] = await plataformasRes.json();
+
+      setCategorias(categoriasData);
+      setPlataformas(plataformasData);
+
+      // Si no hay categorías o plataformas, establece un valor por defecto para evitar P2003
+      // O establece el primer ID si hay opciones disponibles
+      setFormData(prev => ({
+        ...prev,
+        categoriaId: categoriasData.length > 0 ? categoriasData[0].id : 0,
+        plataformaId: plataformasData.length > 0 ? plataformasData[0].id : 0,
+      }));
+
+    } catch (err: any) {
+      console.error("Error al cargar opciones (categorías/plataformas):", err);
+      setErrorOptions(err.message);
+      // Opcional: Redirigir si el error es por autenticación
+      if (err.message.includes('401') || err.message.includes('403')) {
+          localStorage.removeItem('token');
+          navigate('/SignIn');
+      }
+    } finally {
+      setLoadingOptions(false);
+    }
+  };
+
+  // --- FUNCIONES PARA ABRIR/CERRAR MODALES ---
+  const openAddModal = () => {
+    setCurrentEditGame(null);
+    // Reiniciar formData, usando los primeros IDs disponibles si los hay, o 0
+    setFormData({
+      title: '', description: '', price: 0, publisher: '', estaOferta: false, estado: true, userId: 1,
+      categoriaId: categorias.length > 0 ? categorias[0].id : 0,
+      plataformaId: plataformas.length > 0 ? plataformas[0].id : 0,
+    });
+    setAddModalOpen(true);
+  };
   const closeAddModal = () => setAddModalOpen(false);
 
   const openFilterModal = () => setFilterModalOpen(true);
   const closeFilterModal = () => setFilterModalOpen(false);
 
-  const openEditModal = () => setEditModalOpen(true);
-  const closeEditModal = () => setEditModalOpen(false);
+  const openEditModal = (game: Game) => {
+    setCurrentEditGame(game);
+    setFormData({
+      id: game.id,
+      title: game.title,
+      description: game.description,
+      price: game.price,
+      publisher: game.publisher,
+      estaOferta: game.estaOferta,
+      estado: game.estado,
+      userId: game.userId,
+      categoriaId: game.categoriaId,
+      plataformaId: game.plataformaId,
+    });
+    setEditModalOpen(true);
+  };
+  const closeEditModal = () => {
+    setCurrentEditGame(null);
+    setEditModalOpen(false);
+  };
 
-  const openDeleteModal = (gameName: string) => {
-    setSelectedGameToDelete(gameName);
+  const openDeleteModal = (gameId: number) => {
+    setSelectedGameIdToDelete(gameId);
     setDeleteModalOpen(true);
   };
-
   const closeDeleteModal = () => {
-    setSelectedGameToDelete(null);
+    setSelectedGameIdToDelete(null);
     setDeleteModalOpen(false);
   };
+  // --- FIN FUNCIONES MODALES ---
 
-  const confirmDelete = () => {
-    console.log(`Eliminando juego: ${selectedGameToDelete}`);
-    // Aquí iría la lógica real de eliminación
-    closeDeleteModal();
+  // --- FETCH: OBTENER JUEGOS (READ ALL) ---
+  const fetchGames = async () => {
+    setLoading(true);
+    setError(null);
+
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      console.log('No hay token de autenticación, redirigiendo a SignIn');
+      navigate('/SignIn');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:3000/api/games', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        if (response.status === 401 || response.status === 403) {
+          console.error('Error de autenticación/autorización. Token inválido o expirado. Redirigiendo a SignIn.');
+          localStorage.removeItem('token');
+          navigate('/SignIn');
+          return;
+        }
+        const errorData = await response.json();
+        throw new Error(errorData.error || `Error HTTP! Estado: ${response.status}`);
+      }
+      const data: Game[] = await response.json();
+      setGames(data);
+    } catch (err: any) {
+      console.error("Error al obtener juegos:", err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  useEffect(() => {
+    fetchOptions(); // Cargar categorías y plataformas al inicio
+    fetchGames(); // Cargar juegos
+  }, [navigate]); // Dependencia 'navigate' para evitar advertencias de React Hook
+
+  // --- FUNCIONES DE CRUD (con AUTHENTICATION HEADER) ---
+
+  // Manejador de cambios en el formulario (para agregar y editar)
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value, type, checked } = e.target as HTMLInputElement;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : (name === 'price' || name === 'categoriaId' || name === 'plataformaId' || name === 'userId' ? parseFloat(value) : value)
+    }));
+  };
+
+  // Manejador para AGREGAR/EDITAR (CREATE/UPDATE)
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setError('No hay token de autenticación. Por favor, inicia sesión.');
+      setLoading(false);
+      navigate('/SignIn');
+      return;
+    }
+
+    // Validación básica para evitar P2003 si las opciones no se cargaron bien
+    if (formData.categoriaId === 0 || formData.plataformaId === 0) {
+      setError('Por favor, selecciona una Categoría y una Plataforma válidas.');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const url = currentEditGame ? `http://localhost:3000/api/games/${currentEditGame.id}` : 'http://localhost:3000/api/games';
+      const method = currentEditGame ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        if (response.status === 401 || response.status === 403) {
+            console.error('Error de autenticación/autorización. Token inválido o expirado.');
+            localStorage.removeItem('token');
+            navigate('/SignIn');
+            return;
+        }
+        const errorData = await response.json();
+        throw new Error(errorData.error || `Error al ${currentEditGame ? 'actualizar' : 'crear'} el juego!`);
+      }
+
+      await fetchGames();
+      closeAddModal();
+      closeEditModal();
+
+    } catch (err: any) {
+      console.error(`Error al ${currentEditGame ? 'actualizar' : 'crear'} juego:`, err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Manejador para ELIMINAR (DELETE)
+  const confirmDelete = async () => {
+    if (selectedGameIdToDelete === null) return;
+    setLoading(true);
+    setError(null);
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setError('No hay token de autenticación. Por favor, inicia sesión.');
+      setLoading(false);
+      closeDeleteModal();
+      navigate('/SignIn');
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:3000/api/games/${selectedGameIdToDelete}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        if (response.status === 401 || response.status === 403) {
+            console.error('Error de autenticación/autorización. Token inválido o expirado.');
+            localStorage.removeItem('token');
+            navigate('/SignIn');
+            return;
+        }
+        const errorData = await response.json();
+        throw new Error(errorData.error || `Error al eliminar el juego!`);
+      }
+
+      await fetchGames();
+      closeDeleteModal();
+    } catch (err: any) {
+      console.error("Error al eliminar juego:", err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  // --- FIN FUNCIONES DE CRUD ---
+
+
+  // --- Renderizado de estados de carga/error ---
+  if (loading || loadingOptions) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+        <h2>Cargando datos...</h2>
+      </div>
+    );
+  }
+
+  if (error || errorOptions) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh', color: 'red' }}>
+        <h2>Error al cargar los juegos o sus opciones: {error || errorOptions}</h2>
+      </div>
+    );
+  }
 
   return (
     <div className="d-flex">
@@ -97,7 +400,7 @@ const games = [
               style={{ objectFit: "cover" }}
             />
           </div>
-          <h2 className="admin-title">Jonathan Smith</h2>
+          <h2 className="admin-title">Jonathan Smith</h2> {/* Esto parece ser fijo, no dinámico del backend */}
           <Link to={"/Usuarios"} className="btn btn-purple w-100 mb-2 text-start">Users</Link>
           <Link to={"/AdminGames"} className="btn btn-purple w-100 mb-2 text-start">Games</Link>
           <Link to={"/Noticias"} className="btn btn-purple w-100 mb-2 text-start">News</Link>
@@ -144,112 +447,115 @@ const games = [
           </div>
         )}
 
-        {/* Add Modal */}
-        {isAddModalOpen && (
+        {/* Add/Edit Modal */}
+        {(isAddModalOpen || isEditModalOpen) && (
           <div className="modal_overlay">
             <div className="modal_content bg-light p-4 rounded" style={{ width: "400px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)" }}>
-              <h2 className="mb-4">Add Game</h2>
-              <div className="mb-3">
-                <label className="form-label">Name</label>
-                <input type="text" className="form-control" />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Categorie</label>
-                <input type="text" className="form-control" />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Base Price</label>
-                <input type="text" className="form-control" />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Discount</label>
-                <input type="text" className="form-control" />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Release Date</label>
-                <input type="date" className="form-control" />
-              </div>
-              <div className="d-flex justify-content-between">
-                <button className="btn btn-secondary" onClick={closeAddModal}>Cancel</button>
-                <button className="btn btn-primary" onClick={closeAddModal}>Submit</button>
-              </div>
+              <h2 className="mb-4">{currentEditGame ? 'Editar Juego' : 'Agregar Juego'}</h2>
+              <form onSubmit={handleSubmit}>
+                <div className="mb-3">
+                  <label className="form-label">Título</label>
+                  <input type="text" className="form-control" name="title" value={formData.title} onChange={handleChange} required />
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Descripción</label>
+                  <textarea className="form-control" name="description" value={formData.description} onChange={handleChange} required />
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Precio Base</label>
+                  <input type="number" step="0.01" className="form-control" name="price" value={formData.price} onChange={handleChange} required />
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Publicador</label>
+                  <input type="text" className="form-control" name="publisher" value={formData.publisher} onChange={handleChange} required />
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Categoría</label>
+                  <select
+                    className="form-control"
+                    name="categoriaId"
+                    value={formData.categoriaId}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Selecciona una categoría</option>
+                    {categorias.map(cat => (
+                      <option key={cat.id} value={cat.id}>{cat.nombre}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Plataforma</label>
+                  <select
+                    className="form-control"
+                    name="plataformaId"
+                    value={formData.plataformaId}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Selecciona una plataforma</option>
+                    {plataformas.map(plat => (
+                      <option key={plat.id} value={plat.id}>{plat.nombre}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="mb-3 form-check">
+                  <input type="checkbox" className="form-check-input" id="estaOferta" name="estaOferta" checked={formData.estaOferta} onChange={handleChange} />
+                  <label className="form-check-label" htmlFor="estaOferta">¿Está en Oferta?</label>
+                </div>
+                <div className="mb-3 form-check">
+                  <input type="checkbox" className="form-check-input" id="estado" name="estado" checked={formData.estado} onChange={handleChange} />
+                  <label className="form-check-label" htmlFor="estado">¿Está Activo?</label>
+                </div>
+                <input type="hidden" name="userId" value={formData.userId} />
+
+                <div className="d-flex justify-content-between">
+                  <button type="button" className="btn btn-secondary" onClick={currentEditGame ? closeEditModal : closeAddModal}>Cancelar</button>
+                  <button type="submit" className="btn btn-primary">{currentEditGame ? 'Actualizar' : 'Agregar'}</button>
+                </div>
+              </form>
             </div>
           </div>
         )}
-
-        {iseditModalOpen && (
-          <div className="modal_overlay">
-            <div
-              className="modal_content bg-light p-4 rounded"
-              style={{
-                width: "400px",
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)"
-              }}
-            >
-              <h4 className="mb-4 text-center">Edit game</h4>
-              <div className="mb-3">
-                <label className="form-label">Name</label>
-                <input type="text" className="form-control" defaultValue="Silent Hill 2" />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Category</label>
-                <select className="form-control">
-                  <option>Horror</option>
-                </select>
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Price</label>
-                <input type="text" className="form-control" defaultValue="29.52" />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Discount</label>
-                <input type="text" className="form-control" defaultValue="0" />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Description</label>
-                <textarea className="form-control" defaultValue="Describe el juego..."></textarea>
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Photo</label>
-                <div className="border rounded bg-light text-center py-2">
-                  <img src="https://via.placeholder.com/100x60?text=Image" alt="Preview" />
-                </div>
-              </div>
-              <div className="d-flex justify-content-between">
-                <button className="btn btn-secondary" onClick={closeEditModal}>Cancel</button>
-                <button className="btn btn-primary" onClick={closeEditModal}>Submit</button>
-              </div>
-            </div>
-          </div>
-        )}        
 
         {/* Games Table */}
         <table className="table table-striped">
           <thead className="thead-dark">
             <tr>
-              <th scope="col">DATE</th>
-              <th scope="col">CATEGORIE</th>
-              <th scope="col">NAME</th>
-              <th scope="col">BASE PRICE</th>
-              <th scope="col">DISCOUNT</th>
-              <th scope="col">ACTIONS</th>
+              <th scope="col">ID</th>
+              <th scope="col">FECHA</th>
+              <th scope="col">CATEGORIA</th>
+              <th scope="col">NOMBRE</th>
+              <th scope="col">PRECIO BASE</th>
+              <th scope="col">OFERTA</th>
+              <th scope="col">ESTADO</th>
+              <th scope="col">CREADO POR</th>
+              <th scope="col">ACCIONES</th>
             </tr>
           </thead>
           <tbody>
-            {games.map((game) => (
+            {games.length === 0 ? (
               <tr>
-                <td>{game.date}</td>
-                <td>{game.categorie}</td>
-                <td>{game.name}</td>
-                <td>{game.precioBase}</td>
-                <td>{game.discount}</td>
-                <td>
-                  <button className="btn btn-warning btn-sm me-2" onClick={openEditModal}>✏️</button>
-                  <button className="btn btn-danger btn-sm" onClick={() => openDeleteModal(game.name)}>🗑️</button>
-
-                </td>
+                <td colSpan={9} className="text-center">No hay juegos disponibles.</td>
               </tr>
-            ))}
+            ) : (
+              games.map((game) => (
+                <tr key={game.id}>
+                  <td>{game.id}</td>
+                  <td>{new Date(game.createdAt).toLocaleDateString()}</td>
+                  <td>{game.categoria?.nombre || 'N/A'}</td>
+                  <td>{game.title}</td>
+                  <td>S/. {game.price.toFixed(2)}</td>
+                  <td>{game.estaOferta ? 'Sí' : 'No'}</td>
+                  <td>{game.estado ? 'Activo' : 'Inactivo'}</td>
+                  <td>{game.user?.name || 'Desconocido'}</td>
+                  <td>
+                    <button className="btn btn-warning btn-sm me-2" onClick={() => openEditModal(game)}>✏️</button>
+                    <button className="btn btn-danger btn-sm" onClick={() => openDeleteModal(game.id)}>🗑️</button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
         <EliminarJuegos
@@ -263,4 +569,3 @@ const games = [
 };
 
 export default AdminGames;
-

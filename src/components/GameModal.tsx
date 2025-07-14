@@ -60,6 +60,11 @@ const GameModal: React.FC<GameModalProps> = ({ game, onClose }) => {
     setVideoUrls(videos); // Asegura que los videoUrls estén actualizados al principio
   }, [game]);
 
+  // Log para verificar juego recibido en modal
+  useEffect(() => {
+    console.log('Modal abierto para:', game.title);
+  }, [game]);
+
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -160,7 +165,6 @@ const GameModal: React.FC<GameModalProps> = ({ game, onClose }) => {
           <button className="purchase-button">PURCHASE NOW</button>
         </div>
 
-        {/* Botón para actualizar las URLs de video solo si hay alguna URL nueva */}
         {videoUrls.length > 0 && videoUrls !== videos && (
           <button onClick={handleUpdateVideoUrls}>Actualizar URLs de Video</button>
         )}

@@ -20,26 +20,29 @@ import AdminGames from './pages/AdminGames';
 import Noticias from './pages/Noticias';
 import JuegosComprados from './pages/JuegosComprados';
 
-
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
+        {/* Ruta principal puede ser SignIn o Home */}
         <Route path='/' element={<SignIn />} />
-        <Route path='/Registro' element={<SignUp />} />
-        <Route path='/CambiarContraseña' element={<ChangePassword />} />
-        <Route path='/Verificacion' element={<Verificacion />} />
-        <Route path='/Home' element={<Home />} />
-        <Route path='/TopRated' element={<TopRated />} />
-        <Route path='/BestSellers' element={<BestSellers />} />
-        <Route path='/Carrito' element={<ShoppingCart />} />
-        <Route path='/RealizarPago' element={<RealizarPago />} />
-        <Route path='/Estadisticas' element={<Estadisticas />} />
-        <Route path='/Admin' element={<Admin />} />
-        <Route path='/Usuarios' element={<Usuarios />} />
-        <Route path='/AdminGames' element={<AdminGames />} />
-        <Route path='/Noticias' element={<Noticias />} />
-        <Route path='/JuegosComprados' element={<JuegosComprados />} />
+
+        {/* Rutas con minúscula */}
+        <Route path='/signin' element={<SignIn />} />
+        <Route path='/registro' element={<SignUp />} />
+        <Route path='/cambiarcontraseña' element={<ChangePassword />} />
+        <Route path='/verificacion' element={<Verificacion />} />
+        <Route path='/home' element={<Home />} />
+        <Route path='/toprated' element={<TopRated />} />
+        <Route path='/bestsellers' element={<BestSellers />} />
+        <Route path='/carrito' element={<ShoppingCart />} />
+        <Route path='/realizarpago' element={<RealizarPago />} />
+        <Route path='/estadisticas' element={<Estadisticas />} />
+        <Route path='/admin' element={<Admin />} />
+        <Route path='/usuarios' element={<Usuarios />} />
+        <Route path='/admingames' element={<AdminGames />} />
+        <Route path='/noticias' element={<Noticias />} />
+        <Route path='/juegoscomprados' element={<JuegosComprados />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>

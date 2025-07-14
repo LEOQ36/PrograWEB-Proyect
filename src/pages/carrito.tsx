@@ -1,29 +1,57 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+interface CartGame {
+  id: number;
+  name: string;
+  image: string;
+}
 
 const ShoppingCart = () => {
   const navigate = useNavigate();
+  const [games, setGames] = useState<CartGame[]>([]);
 
-  const [games, setGames] = useState([
-    {
-      id: 1,
-      name: 'Grand Theft Auto V',
-      image: './Imagenes/GTA.jpg',
-    },
-    {
-      id: 2,
-      name: 'Red Dead Redemption 2',
-      image: './Imagenes/RD2.png',
-    },
-    {
-      id: 3,
-      name: 'God Of War Ragnarok',
-      image: './Imagenes/GOW.png',
-    },
-  ]);
+  const token = localStorage.getItem('token');
 
-  const removeGame = (id: number) => {
-    setGames(games.filter((game) => game.id !== id));
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const res = await fetch('http://localhost:3000/api/cart', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await res.json();
+
+        const mappedGames: CartGame[] = data.map((item: any) => ({
+          id: item.game.id,
+          name: item.game.title,
+          image: item.game.image || './Imagenes/placeholder.png',
+        }));
+
+        setGames(mappedGames);
+      } catch (err) {
+        console.error('Error cargando carrito:', err);
+      }
+    };
+
+    fetchCart();
+  }, []);
+
+  const removeGame = async (id: number) => {
+    try {
+      await fetch(`http://localhost:3000/api/cart/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setGames((prevGames) => prevGames.filter((game) => game.id !== id));
+    } catch (error) {
+      console.error('Error al eliminar juego del carrito:', error);
+    }
   };
 
   return (

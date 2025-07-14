@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 interface Game {
   id: number;
   title: string;
   image: string;
-  platformImage: string;  // Aquí estamos añadiendo la imagen de la plataforma
+  platformImage: string;
   platforms: string[];
   originalPrice: string;
   discountedPrice: string;
@@ -17,20 +17,49 @@ interface GameCardProps {
 }
 
 const GameCard: React.FC<GameCardProps> = ({ game, onClick }) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleAddToCart = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setLoading(true);
+
+    const token = localStorage.getItem('token');
+
+    try {
+      await fetch('http://localhost:3000/api/cart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ gameId: game.id }),
+      });
+      // No mostrar alertas ni logs, manejar silenciosamente
+    } catch {
+      // Error silencioso
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="game-card-custom" onClick={onClick}>
+      <button
+        className="btn btn-sm btn-outline-light position-absolute top-0 end-0 m-1"
+        onClick={handleAddToCart}
+        title="Agregar al carrito"
+        disabled={loading}
+        style={{ position: 'absolute', top: '5px', right: '5px', zIndex: 10 }}
+      >
+        {loading ? '⏳' : '🛒'}
+      </button>
+
       <img src={game.image} alt={game.title} className="game-img" />
       <div className="game-info">
         <h5>{game.title}</h5>
 
-        {/* Aquí mostramos la imagen de la plataforma */}
         {game.platformImage && game.platformImage !== '' ? (
-        <img
-        alt="Platform"
-        className="platform-logo"
-        src={`http://localhost:3000/Imagenes/PS5.png`}  // Solo agrega el nombre del archivo
-      />
-
+          <img alt="Platform" className="platform-logo" src={game.platformImage} />
         ) : (
           game.platforms.map((platform, index) => (
             <p key={index} className="platform-text">{platform}</p>

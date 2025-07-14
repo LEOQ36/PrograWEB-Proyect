@@ -1,8 +1,10 @@
 import React from 'react';
 
 interface Game {
+  id: number;
   title: string;
   image: string;
+  platformImage: string; // Aquí estamos añadiendo la imagen de la plataforma
   platforms: string[];
   originalPrice: string;
   discountedPrice: string;
@@ -20,14 +22,20 @@ const GameCard: React.FC<GameCardProps> = ({ game, onClick }) => {
       <img src={game.image} alt={game.title} className="game-img" />
       <div className="game-info">
         <h5>{game.title}</h5>
-        {game.platforms.map((platform, index) => (
+
+        {/* Aquí mostramos la imagen de la plataforma */}
+        {game.platformImage && game.platformImage !== '' ? (
           <img
-            key={index}
-            src={platform}
+            src={game.platformImage}
             alt="Platform"
             className="platform-logo"
           />
-        ))}
+        ) : (
+          game.platforms.map((platform, index) => (
+            <p key={index} className="platform-text">{platform}</p>
+          ))
+        )}
+
         <p className="price">
           <span className="original-price">{game.originalPrice}</span> {game.discountedPrice}{' '}
           <span className="discount">{game.discount}</span>

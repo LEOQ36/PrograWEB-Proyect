@@ -9,30 +9,43 @@ const ChangePassword = () => {
     const [mensaje, setMensaje] = useState("");
     const [error, setError] = useState("");
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const form = e.currentTarget;
-        const email = form.email.value.trim();
-        const newPassword = form.newPassword.value;
-        const confirmPassword = form.confirmPassword.value;
-
-        if (!email || !newPassword || !confirmPassword) {
-            setError("Todos los campos son obligatorios.");
-            return;
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      const form = e.currentTarget;
+      const email = form.email.value.trim();
+      const newPassword = form.newPassword.value;
+      const confirmPassword = form.confirmPassword.value;
+  
+      if (!email || !newPassword || !confirmPassword) {
+        setError("Todos los campos son obligatorios.");
+        return;
+      }
+  
+      if (newPassword !== confirmPassword) {
+        setError("Las contraseñas no coinciden.");
+        return;
+      }
+  
+      setError("");
+  
+      try {
+        const response = await fetch("http://localhost:3000/api/auth/change-password", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, newPassword }),
+        });
+  
+        const data = await response.json();
+  
+        if (!response.ok) {
+          setError(data.error || "Error al cambiar la contraseña.");
+        } else {
+          setMensaje("Contraseña actualizada exitosamente. Inicia sesión.");
+          setTimeout(() => navigate("/"), 2500); // o "/SignIn" si esa es tu ruta
         }
-
-        if (newPassword !== confirmPassword) {
-            setError("Las contraseñas no coinciden.");
-            return;
-        }
-
-        setError("");
-
-        setMensaje("Contraseña actualizada exitosamente. Inicia sesión.");
-
-        setTimeout(() => {
-            navigate("/SignIn"); 
-        }, 2500);
+      } catch (error) {
+        setError("Error de red al intentar cambiar la contraseña.");
+      }
     };
 
     return (

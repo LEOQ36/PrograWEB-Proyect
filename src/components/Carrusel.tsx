@@ -1,13 +1,13 @@
 import React from 'react';
 
-export interface Game {
+export interface CarouselGame {
   title: string;
-  Bannerimage: string;
+  bannerImage: string;
   description?: string;
 }
 
 interface VideoGameCarouselProps {
-  games: Game[];
+  games: CarouselGame[];
   title?: string;
 }
 
@@ -25,7 +25,7 @@ const VideoGameCarousel: React.FC<VideoGameCarouselProps> = ({ games, title }) =
               className={`carousel-item ${index === 0 ? 'active' : ''}`}
               data-bs-interval={index === 0 ? 10000 : 5000}
             >
-              <img src={game.Bannerimage} className="d-block w-100" alt={game.title} style={{ maxHeight: '500px', objectFit: 'cover' }} />
+              <img src={game.bannerImage} className="d-block w-100" alt={game.title} style={{ maxHeight: '500px', objectFit: 'cover' }} />
               <div className="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
                 <h5>{game.title}</h5>
                 {game.description && <p>{game.description}</p>}

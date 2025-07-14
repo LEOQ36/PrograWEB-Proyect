@@ -77,6 +77,7 @@ const AdminGames = () => {
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentUserName, setCurrentUserName] = useState<string>('Cargando...'); // <-- NUEVO ESTADO PARA EL NOMBRE
 
   // Nuevos estados para categorías y plataformas
   const [categorias, setCategorias] = useState<Categoria[]>([]);
@@ -104,6 +105,39 @@ const AdminGames = () => {
 
   const [currentEditGame, setCurrentEditGame] = useState<Game | null>(null);
 
+  // --- NUEVA FUNCIÓN: OBTENER EL NOMBRE DEL USUARIO LOGUEADO ---
+  const fetchCurrentUserName = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setCurrentUserName('No Autenticado');
+      navigate('/signin'); // Redirigir si no hay token
+      return;
+    }
+    try {
+      const response = await fetch('http://localhost:3000/api/auth/profile', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        if (response.status === 401 || response.status === 403) {
+          console.error('Token inválido o expirado al intentar obtener perfil. Redirigiendo a /signin.');
+          localStorage.removeItem('token');
+          navigate('/signin');
+        }
+        throw new Error(`Error al obtener el perfil del usuario: ${response.statusText}`);
+      }
+
+      const userData = await response.json();
+      setCurrentUserName(userData.name); // Establece el nombre del usuario
+    } catch (err) {
+      console.error("Error al obtener el nombre del usuario:", err);
+      setCurrentUserName('Error al cargar usuario');
+    }
+  };
+
   // --- FUNCIONES PARA OBTENER CATEGORIAS Y PLATAFORMAS ---
   const fetchOptions = async () => {
     setLoadingOptions(true);
@@ -113,7 +147,7 @@ const AdminGames = () => {
     if (!token) {
       setErrorOptions('No hay token de autenticación para cargar opciones.');
       setLoadingOptions(false);
-      navigate('/SignIn'); // Redirigir si no hay token
+      navigate('/signin');
       return;
     }
 
@@ -140,8 +174,6 @@ const AdminGames = () => {
       setCategorias(categoriasData);
       setPlataformas(plataformasData);
 
-      // Si no hay categorías o plataformas, establece un valor por defecto para evitar P2003
-      // O establece el primer ID si hay opciones disponibles
       setFormData(prev => ({
         ...prev,
         categoriaId: categoriasData.length > 0 ? categoriasData[0].id : 0,
@@ -151,10 +183,9 @@ const AdminGames = () => {
     } catch (err: any) {
       console.error("Error al cargar opciones (categorías/plataformas):", err);
       setErrorOptions(err.message);
-      // Opcional: Redirigir si el error es por autenticación
       if (err.message.includes('401') || err.message.includes('403')) {
           localStorage.removeItem('token');
-          navigate('/SignIn');
+          navigate('/signin');
       }
     } finally {
       setLoadingOptions(false);
@@ -164,7 +195,6 @@ const AdminGames = () => {
   // --- FUNCIONES PARA ABRIR/CERRAR MODALES ---
   const openAddModal = () => {
     setCurrentEditGame(null);
-    // Reiniciar formData, usando los primeros IDs disponibles si los hay, o 0
     setFormData({
       title: '', description: '', price: 0, publisher: '', estaOferta: false, estado: true, userId: 1,
       categoriaId: categorias.length > 0 ? categorias[0].id : 0,
@@ -216,8 +246,8 @@ const AdminGames = () => {
     const token = localStorage.getItem('token');
 
     if (!token) {
-      console.log('No hay token de autenticación, redirigiendo a SignIn');
-      navigate('/SignIn');
+      console.log('No hay token de autenticación, redirigiendo a /signin');
+      navigate('/signin');
       setLoading(false);
       return;
     }
@@ -232,9 +262,9 @@ const AdminGames = () => {
 
       if (!response.ok) {
         if (response.status === 401 || response.status === 403) {
-          console.error('Error de autenticación/autorización. Token inválido o expirado. Redirigiendo a SignIn.');
+          console.error('Error de autenticación/autorización. Token inválido o expirado. Redirigiendo a /signin.');
           localStorage.removeItem('token');
-          navigate('/SignIn');
+          navigate('/signin');
           return;
         }
         const errorData = await response.json();
@@ -251,13 +281,13 @@ const AdminGames = () => {
   };
 
   useEffect(() => {
-    fetchOptions(); // Cargar categorías y plataformas al inicio
-    fetchGames(); // Cargar juegos
-  }, [navigate]); // Dependencia 'navigate' para evitar advertencias de React Hook
+    fetchCurrentUserName(); // <-- LLAMADA PARA OBTENER EL NOMBRE DEL USUARIO
+    fetchOptions();
+    fetchGames();
+  }, [navigate]);
 
   // --- FUNCIONES DE CRUD (con AUTHENTICATION HEADER) ---
 
-  // Manejador de cambios en el formulario (para agregar y editar)
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type, checked } = e.target as HTMLInputElement;
     setFormData(prev => ({
@@ -266,7 +296,6 @@ const AdminGames = () => {
     }));
   };
 
-  // Manejador para AGREGAR/EDITAR (CREATE/UPDATE)
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -276,11 +305,10 @@ const AdminGames = () => {
     if (!token) {
       setError('No hay token de autenticación. Por favor, inicia sesión.');
       setLoading(false);
-      navigate('/SignIn');
+      navigate('/signin');
       return;
     }
 
-    // Validación básica para evitar P2003 si las opciones no se cargaron bien
     if (formData.categoriaId === 0 || formData.plataformaId === 0) {
       setError('Por favor, selecciona una Categoría y una Plataforma válidas.');
       setLoading(false);
@@ -304,7 +332,7 @@ const AdminGames = () => {
         if (response.status === 401 || response.status === 403) {
             console.error('Error de autenticación/autorización. Token inválido o expirado.');
             localStorage.removeItem('token');
-            navigate('/SignIn');
+            navigate('/signin');
             return;
         }
         const errorData = await response.json();
@@ -323,7 +351,6 @@ const AdminGames = () => {
     }
   };
 
-  // Manejador para ELIMINAR (DELETE)
   const confirmDelete = async () => {
     if (selectedGameIdToDelete === null) return;
     setLoading(true);
@@ -334,7 +361,7 @@ const AdminGames = () => {
       setError('No hay token de autenticación. Por favor, inicia sesión.');
       setLoading(false);
       closeDeleteModal();
-      navigate('/SignIn');
+      navigate('/signin');
       return;
     }
 
@@ -351,7 +378,7 @@ const AdminGames = () => {
         if (response.status === 401 || response.status === 403) {
             console.error('Error de autenticación/autorización. Token inválido o expirado.');
             localStorage.removeItem('token');
-            navigate('/SignIn');
+            navigate('/signin');
             return;
         }
         const errorData = await response.json();
@@ -400,7 +427,7 @@ const AdminGames = () => {
               style={{ objectFit: "cover" }}
             />
           </div>
-          <h2 className="admin-title">Jonathan Smith</h2> {/* Esto parece ser fijo, no dinámico del backend */}
+          <h2 className="admin-title">{currentUserName}</h2> {/* <-- CAMBIO CLAVE: Muestra el nombre dinámico */}
           <Link to={"/Usuarios"} className="btn btn-purple w-100 mb-2 text-start">Users</Link>
           <Link to={"/AdminGames"} className="btn btn-purple w-100 mb-2 text-start">Games</Link>
           <Link to={"/Noticias"} className="btn btn-purple w-100 mb-2 text-start">News</Link>

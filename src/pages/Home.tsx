@@ -5,7 +5,7 @@ import GameCard from '../components/GameCard';
 import VideoGameCarousel from '../components/Carrusel';
 
 interface Game {
-  id : number;
+  id: number;
   title: string;
   Bannerimage: string;
   image: string;
@@ -18,24 +18,12 @@ interface Game {
   screenshots?: string[];
   reviews?: {
     avatar: string;
-    rating: string; // Ej: "★★★★☆"
+    rating: string;
     comment: string;
   }[];
 }
 
-
-const Home : React.FC = () => {
-    const [selectedGame, setSelectedGame] = useState<Game | null>(null);
-    
-      const handleGameClick = (game: Game) => {
-        setSelectedGame(game);
-      };
-    
-      const handleCloseModal = () => {
-        setSelectedGame(null);
-      };
-
-      const games: Game[] = [
+ const games: Game[] = [
     {
       id : 1234,
       title: 'NBA 2K25',
@@ -300,43 +288,79 @@ const Home : React.FC = () => {
           comment: '¡Juego Legendario!'
         }
       ]    
-    },
-  ];
+    }
+];
 
- return (
+const Home: React.FC = () => {
+  const [selectedGame, setSelectedGame] = useState<Game | null>(null);
+  const [maxPrice, setMaxPrice] = useState<string>('');
+  const [filteredGames, setFilteredGames] = useState<Game[]>(games);
+
+  const handleGameClick = (game: Game) => {
+    setSelectedGame(game);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedGame(null);
+  };
+
+  const handleFilter = () => {
+    const max = parseFloat(maxPrice);
+    if (!isNaN(max)) {
+      const filtered = games.filter(
+        (game) => parseFloat(game.discountedPrice.replace('$', '')) <= max
+      );
+      setFilteredGames(filtered);
+    } else {
+      setFilteredGames(games);
+    }
+  };
+
+  return (
     <div className="fondo">
       <BarraNavegacion />
 
-      <div>
-      <VideoGameCarousel games={games}  />
-    </div>
-
-    
+      <VideoGameCarousel games={games} />
 
       <h1 className="section-title">Recent Games</h1>
 
+      <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+        <input
+          type="number"
+          placeholder="Precio máximo"
+          value={maxPrice}
+          onChange={(e) => setMaxPrice(e.target.value)}
+          style={{
+            padding: '8px',
+            borderRadius: '6px',
+            border: '1px solid #ccc',
+            width: '150px',
+          }}
+        />
+        <button
+          onClick={handleFilter}
+          style={{
+            padding: '8px 16px',
+            borderRadius: '6px',
+            backgroundColor: '#007bff',
+            color: 'white',
+            border: 'none',
+            cursor: 'pointer',
+          }}
+        >
+          Filtrar
+        </button>
+      </div>
+
       <div className="game-grid">
-        {games.map((game, index) => (
-          <GameCard
-            key={index}
-            game={game}
-            onClick={() => handleGameClick(game)} 
-          />
+        {filteredGames.map((game, index) => (
+          <GameCard key={index} game={game} onClick={() => handleGameClick(game)} />
         ))}
       </div>
 
-      {selectedGame && (
-        <GameModal
-          game={selectedGame}
-          onClose={handleCloseModal}
-        />
-      )}
+      {selectedGame && <GameModal game={selectedGame} onClose={handleCloseModal} />}
     </div>
   );
+};
 
-
-
-
-}
-
-export default Home
+export default Home;

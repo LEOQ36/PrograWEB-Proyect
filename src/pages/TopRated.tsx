@@ -21,6 +21,7 @@ interface Game {
     rating: string;
     comment: string;
   }[];
+  videoUrls?: string[]; // Asegúrate de incluir esta propiedad si quieres usar videos
 }
 
 const TopRated: React.FC = () => {
@@ -32,48 +33,46 @@ const TopRated: React.FC = () => {
       try {
         const res = await fetch('http://localhost:3000/api/games');
         const data = await res.json();
-  
-        const processedGames: Game[] = data.map((game: any) => {
-  const discountRate = game.estaOferta ? 0.1 : 0;
-  const discounted = (game.price * (1 - discountRate)).toFixed(2);
-  const discountPercent = `-${Math.round(discountRate * 100)}%`;
 
-  return {
-    id: game.id,
-    title: game.title,
-    description: game.description,
-    price: game.price,
-    publisher: game.publisher,
-    image: `http://localhost:3000${game.image}`,
-    bannerImage: `http://localhost:3000${game.bannerImage}`,
-    platforms: game.plataforma ? [game.plataforma.nombre] : ['Plataforma desconocida'],
-    platformImage: game.plataforma ? `http://localhost:3000${game.plataforma.image}` : '',
-    originalPrice: `$${game.price.toFixed(2)}`,
-    discountedPrice: `$${discounted}`,
-    discount: discountRate > 0 ? discountPercent : '-0%',
-    reviews: game.reviews?.map((r: any) => ({
-      avatar: 'https://randomuser.me/api/portraits/lego/1.jpg',
-      rating: '★★★★☆',
-      comment: r.content
-    })),
-    videoUrls: game.videoUrls || [] // Asegúrate de incluir los videos aquí
-  };
-});
-  
+        const processedGames: Game[] = data.map((game: any) => {
+          const discountRate = game.estaOferta ? 0.1 : 0;
+          const discounted = (game.price * (1 - discountRate)).toFixed(2);
+          const discountPercent = `-${Math.round(discountRate * 100)}%`;
+
+          return {
+            id: game.id,
+            title: game.title,
+            description: game.description,
+            price: game.price,
+            publisher: game.publisher,
+            image: `http://localhost:3000${game.image || '/default-image.jpg'}`,  // Imagen predeterminada
+            bannerImage: `http://localhost:3000${game.bannerImage || '/default-banner.jpg'}`,  // Banner predeterminado
+            platforms: game.plataforma ? [game.plataforma.nombre] : ['Plataforma desconocida'],
+            platformImage: game.plataforma ? `http://localhost:3000${game.plataforma.image || '/default-platform.jpg'}` : '',  // Imagen predeterminada de plataforma
+            originalPrice: `$${game.price.toFixed(2)}`,
+            discountedPrice: `$${discounted}`,
+            discount: discountRate > 0 ? discountPercent : '-0%',
+            reviews: game.reviews?.map((r: any) => ({
+              avatar: 'https://randomuser.me/api/portraits/lego/1.jpg',
+              rating: '★★★★☆',
+              comment: r.content,
+            })),
+            videoUrls: game.videoUrls || [], // Asegúrate de incluir los videos aquí
+          };
+        });
+
         setGames(processedGames);
       } catch (err) {
         console.error('Error al obtener juegos:', err);
       }
     };
-  
+
     fetchGames();
   }, []);
-  
-  
 
   const handleGameClick = (game: Game) => {
     setSelectedGame(game);
-    console.log("SE SELECCIONO EL JUEGO",game)
+    console.log("SE SELECCIONÓ EL JUEGO", game);
   };
 
   const handleCloseModal = () => {
@@ -81,24 +80,22 @@ const TopRated: React.FC = () => {
   };
 
   return (
-    <div className="fondo">
+    <div className="fondo"> {/* Cambié la clase aquí */}
       <BarraNavegacion />
       <div>
-      <VideoGameCarousel
-  games={games.map(({ title, bannerImage, description }) => ({
-    title,
-    bannerImage, // ✅ nombre correcto con "I" mayúscula
-    description,
-  }))}
-  title="Videojuegos Recomendados"
-/>
-
-
+        <VideoGameCarousel
+          games={games.map(({ title, bannerImage, description }) => ({
+            title,
+            bannerImage,
+            description,
+          }))}
+          title="Videojuegos Recomendados"
+        />
       </div>
 
-      <h1 className="section-title">Top Rated Games</h1>
+      <h1 className="section-title">Top Rated Games</h1> {/* Cambié la clase aquí */}
 
-      <div className="game-grid">
+      <div className="game-grid"> {/* Cambié la clase aquí */}
         {games.map((game, index) => (
           <GameCard key={index} game={game} onClick={() => handleGameClick(game)} />
         ))}

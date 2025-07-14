@@ -1,0 +1,58 @@
+
+ .gdl-modal-overlay-confirm {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050; 
+}
+
+.gdl-modal-content-confirm {
+    background-color: #333; 
+    color: white; 
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    width: 400px;
+    max-width: 90%; 
+    position: relative; 
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+    
+}
+
+.gdl-modal-close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: white; 
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.gdl-modal-body-confirm h2 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: white; 
+}
+
+.gdl-modal-body-confirm p {
+    font-size: 14px;
+    color: #ccc; 
+}
+
+.gdl-check-icon {
+    font-size: 24px;
+    margin: 10px 0;
+    background: white;
+    color: black;
+    border-radius: 6px;
+    display: inline-block;
+    padding: 5px 10px;
+}

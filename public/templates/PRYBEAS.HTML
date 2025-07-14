@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Modal Detalles Juego</title>
+  <link rel="stylesheet" href="MODAL.CSS" />
+
+  
+  
+</head>
+<body>
+
+  <button id="openModalBtn">Ver Detalles del Juego</button>
+
+  <div id="modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="gameTitle">
+    <div class="modal-container">
+      <button class="close-button" id="closeModalBtn" aria-label="Cerrar modal">X</button>
+      <h2 id="gameTitle">The Legend of Zelda: Tears of the Kingdom</h2>
+
+      <div class="modal-content">
+        <div class="modal-video">
+            <iframe 
+            width="100%" 
+            height="85%" 
+            src="https://www.youtube.com/embed/1rPxiXXxftE" 
+            title="The Legend of Zelda Trailer"
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+          </iframe>
+          <div class="video-thumbnails">
+            <img src="https://via.placeholder.com/80?text=Img1" alt="Miniatura 1" />
+            <img src="https://via.placeholder.com/80?text=Img2" alt="Miniatura 2" />
+            <img src="https://via.placeholder.com/80?text=Img3" alt="Miniatura 3" />
+            <img src="https://via.placeholder.com/80?text=Img4" alt="Miniatura 4" />
+            <img src="https://via.placeholder.com/80?text=Img5" alt="Miniatura 5" />
+            <img src="https://via.placeholder.com/80?text=Img6" alt="Miniatura 6" />
+          </div>
+        </div>
+
+        <div class="modal-description">
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet purus quis metus imperdiet, et ultricies sapien faucibus. Curabitur suscipit urna in nulla tristique, at volutpat neque dapibus. Integer consequat eros nec velit vehicula, ut pulvinar lorem lobortis.
+              </p>
+              
+
+          <div class="user-reviews">
+            <div class="review">
+              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Usuario 1" />
+              <div class="review-content">
+                <div class="review-rating">★★★★☆</div>
+                <p>Muy bueno!</p>
+              </div>
+            </div>
+            <div class="review">
+              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Usuario 2" />
+              <div class="review-content">
+                <div class="review-rating">★★★★★</div>
+                <p>Excelente!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-rating">
+        <div>
+          <span>Rating</span>
+          <p class="stars">★★★★★</p>
+        </div>
+        <button class="purchase-button">PURCHASE NOW</button>
+      </div>      
+    </div>
+  </div>
+
+  <script>
+    const openBtn = document.getElementById('openModalBtn');
+    const closeBtn = document.getElementById('closeModalBtn');
+    const modal = document.getElementById('modal');
+
+    openBtn.addEventListener('click', () => {
+      modal.classList.add('show');
+    });
+
+    closeBtn.addEventListener('click', () => {
+      modal.classList.remove('show');
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('show');
+      }
+    });
+  </script>
+
+</body>
+</html>

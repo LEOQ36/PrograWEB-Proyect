@@ -1,0 +1,238 @@
+/* modal.css */
+
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  #openModalBtn {
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-overlay.show {
+    display: flex;
+  }
+  
+  .modal-container {
+    background: white;
+    padding: 10px 20px 20px;
+    border-radius: 8px;
+    max-width: 900px;
+    width: 900px;
+    max-height: 700px;
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+  
+  h2 {
+    margin: 0 0 12px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .close-button {
+    align-self: flex-end;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 18px;
+  }
+  
+  h2 {
+    margin-bottom: 10px;
+  }
+  
+  .modal-content {
+    display: flex;
+    flex: 1;
+    gap: 20px;
+    overflow: hidden;
+  }
+  
+  .modal-video {
+    flex: 2;
+    background: #000;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+  }
+  
+  .modal-video iframe {
+    width: 100%;
+    height: 85%;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .video-thumbnails {
+    height: 30%;          /* Más alto para la barra de imágenes */
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 10px 15px;
+    background: white;
+    align-items: center;
+    border-top: 2px solid #444;
+    border-radius: 0 0 8px 8px;
+  }
+  
+  .video-thumbnails img {
+    height: 100%;         /* Que ocupen toda la altura de la barra */
+    aspect-ratio: 16 / 9; /* formato panorámico para miniaturas más reales */
+    border-radius: 6px;
+    cursor: pointer;
+    flex-shrink: 0;
+    object-fit: cover;
+  }
+  
+  .modal-description {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  .user-reviews {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  
+  .review {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #f1f1f1;
+    padding: 4px 8px;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    width: 180px;
+  }
+  
+  .review img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 1px solid #FFD700;
+  }
+  
+  .review-content {
+    flex: 1;
+  }
+  
+  .review-rating {
+    color: #FFD700;
+    font-size: 0.9rem;
+    margin-bottom: 2px;
+  }
+  
+  .review-content p {
+    margin: 0;
+    font-size: 0.75rem;
+    color: #333;
+  }
+  
+  .modal-rating {
+    margin-top: 15px;
+    font-size: 18px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .stars {
+    font-size: 2.5rem;
+    background: linear-gradient(90deg, #FFD700, #FFC107, #FFB300, #FFA000, #FF8F00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow:
+      0 0 8px rgba(255, 215, 0, 0.7),
+      1px 1px 3px rgba(180, 134, 0, 0.8);
+    letter-spacing: 3px;
+    margin-left: 1px;
+    margin-top: 0;
+    margin-bottom: 0;
+    user-select: none;
+  }
+  
+  .modal-rating > div {
+    /* No se estira, ocupa solo el contenido */
+    flex-shrink: 0;
+  }
+  
+  .purchase-button {
+    background-color: #28a745;
+    color: white;
+    font-size: 2.5rem;
+    font-weight: bold;
+    padding: 20px 40px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 6px 12px rgba(40, 167, 69, 0.5);
+    text-align: center;
+    transition: background-color 0.3s ease;
+    margin-left: auto; /* <--- Aquí está la clave para pegarlo a la derecha */
+  }
+  
+  .purchase-button:hover {
+    background-color: blue;
+  }
+  
+  @media (max-width: 768px) {
+    .modal-content {
+      flex-direction: column;
+    }
+  
+    .modal-video,
+    .modal-description {
+      max-width: 100%;
+    }
+  
+    .user-reviews {
+      position: static;
+      margin-top: 10px;
+    }
+  }
+  
